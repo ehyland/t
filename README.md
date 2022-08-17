@@ -9,5 +9,5 @@ Templates are designed to be consumed with [degit](https://github.com/Rich-Harri
 - ### `node-ts`
 
   ```shell
-  npx degit --mode=git ehyland/t/node-ts my-app
+  npx degit ehyland/t/node-ts my-app
   ```
