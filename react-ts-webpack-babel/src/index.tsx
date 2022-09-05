@@ -1,11 +1,6 @@
 import { createRoot } from 'react-dom/client';
-import { cascadeLarger } from './assets';
+import { App } from './App';
 
 const root = createRoot(document.getElementById('root')!);
 
-root.render(
-  <>
-    <h1>Hello</h1>
-    <img src={cascadeLarger} width="400" />
-  </>
-);
+root.render(<App />);
