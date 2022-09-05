@@ -10,6 +10,10 @@ describe('<App />', () => {
     render(<App />);
   });
 
+  it('renders the date node', () => {
+    expect(screen.getByTestId('date')).toBeInTheDocument();
+  });
+
   it('renders the date', () => {
     expect(screen.getByTestId('date').textContent).toEqual(
       '2022-09-04T02:00:00.000Z'
