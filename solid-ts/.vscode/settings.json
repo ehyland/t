@@ -1,0 +1,7 @@
+{
+  "emmet.includeLanguages": {
+    "javascriptreact": "html",
+    "typescriptreact": "html"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
