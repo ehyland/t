@@ -1,0 +1,23 @@
+syntax = "proto2";
+
+package squareup.wire.sample;
+
+message SampleMessage {
+  repeated string array = 1;
+}
+
+message SampleRequest {
+  optional string name = 1;
+  optional SampleMessage sample_message = 2;
+}
+
+message SampleResponse {
+  optional int32 age = 1;
+}
+
+// This is it. A really fantastic service interface.
+service SampleApi {
+  // Call this RPC. You'll be glad you did!
+  rpc FirstRpc (SampleRequest) returns (SampleResponse);
+  rpc OtherOne (SampleRequest) returns (SampleResponse);
+}
