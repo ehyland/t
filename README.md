@@ -17,3 +17,9 @@ Templates are designed to be consumed with [degit](https://github.com/Rich-Harri
   ```shell
   npx degit ehyland/t/react-ts-webpack-babel my-app
   ```
+
+- ### `pkg-ts` (WIP)
+
+  ```shell
+  npx degit ehyland/t/pkg-ts lib
+  ```
