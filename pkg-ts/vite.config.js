@@ -1,12 +1,17 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
+import { builtinModules } from 'node:module';
 import { defineConfig } from 'vite';
 import pkg from './package.json';
 import dts from 'vite-plugin-dts';
 
-const externals = Object.keys({
-  ...pkg.dependencies,
-  ...pkg.devDependencies,
-});
+const externals = [
+  ...Object.keys({
+    ...pkg.dependencies,
+    ...pkg.devDependencies,
+  }),
+  ...builtinModules,
+  ...builtinModules.map((m) => `node:${m}`),
+];
 
 export default defineConfig({
   plugins: [dts()],
