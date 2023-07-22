@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "dev": "env-cmd -f .env.development tsx watch src/index.ts",
+    "start:dev": "env-cmd -f .env.development node dist/index.js",
+    "build": "tsup-node"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.1.0",
+    "hono": "^3.3.2",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.3",
+    "env-cmd": "^10.1.0",
+    "tsup": "^7.1.0",
+    "tsx": "^3.12.2",
+    "typescript": "^5.1.6"
+  },
+  "packageManager": "pnpm@8.6.9"
+}
