@@ -1,12 +1,19 @@
+// install source maps first
+import 'source-map-support/register';
+
+// then remix globals
+import '@remix-run/node/install';
+
+// then prometheus server
+import './prometheus';
+
 import {
   unstable_createViteServer,
   unstable_loadViteServerBuild,
 } from '@remix-run/dev';
 import { createRequestHandler } from '@remix-run/express';
-import { installGlobals } from '@remix-run/node';
 import express from 'express';
-
-installGlobals();
+import { startServer } from './utils/startServer';
 
 const SERVER_BUILD_PATH = '../build/index.js';
 
@@ -38,6 +45,8 @@ const requestHandler = createRequestHandler({
 // handle SSR requests
 app.all('*', requestHandler);
 
-const PORT = 3000;
-
-app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
+startServer({
+  name: 'app',
+  server: app,
+  port: 3000,
+});

@@ -1,3 +1,5 @@
+import '@mantine/core/styles.css';
+
 import {
   Links,
   LiveReload,
@@ -5,11 +7,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
+} from '@remix-run/react';
+import { App } from './components';
+import { MantineColorScheme } from '@mantine/core';
 
-export default function App() {
+const colorScheme: MantineColorScheme = 'dark';
+
+export default function Root() {
   return (
-    <html lang="en">
+    <html lang="en" data-mantine-color-scheme={colorScheme}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,7 +23,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <App colorScheme={colorScheme}>
+          <Outlet />
+        </App>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
