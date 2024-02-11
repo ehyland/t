@@ -8,6 +8,7 @@ export function App() {
       <h1 className="text-3xl">Simple React + Vite SPA</h1>
       <p>Click the bellow button the increment the count</p>
       <button
+        type="button"
         className="text-white font-medium px-4 py-2 bg-gray-800 border-none rounded-md flex-grow-0"
         onClick={() => setCount((count) => count + 1)}
       >

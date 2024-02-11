@@ -13,6 +13,9 @@ dependencies:
     version: 18.2.0(react@18.2.0)
 
 devDependencies:
+  '@bad-hacking/generate-component':
+    specifier: ^0.1.1
+    version: 0.1.1
   '@testing-library/dom':
     specifier: ^9.3.4
     version: 9.3.4
@@ -117,6 +120,15 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.1
+    dev: true
+
+  /@bad-hacking/generate-component@0.1.1:
+    resolution: {integrity: sha512-ZJKNqrWdVsHIxdy93hHY1JzjJ71vDtdMuDrPSQZscgiBtHdnrJ4k6LRTE9xXXLG6e+SZy7tktoGGxorM9qHUNQ==}
+    hasBin: true
+    dependencies:
+      outdent: 0.8.0
+      remeda: 1.40.1
+      sade: 1.8.1
     dev: true
 
   /@esbuild/aix-ppc64@0.19.12:
@@ -2232,6 +2244,11 @@ packages:
       ufo: 1.4.0
     dev: true
 
+  /mri@1.2.0:
+    resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
+    engines: {node: '>=4'}
+    dev: true
+
   /ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
     dev: true
@@ -2335,6 +2352,10 @@ packages:
       levn: 0.4.1
       prelude-ls: 1.2.1
       type-check: 0.4.0
+    dev: true
+
+  /outdent@0.8.0:
+    resolution: {integrity: sha512-KiOAIsdpUTcAXuykya5fnVVT+/5uS0Q1mrkRHcF89tpieSmY33O/tmc54CqwA+bfhbtEfZUNLHaPUiB9X3jt1A==}
     dev: true
 
   /p-limit@3.1.0:
@@ -2596,6 +2617,10 @@ packages:
       set-function-name: 2.0.1
     dev: true
 
+  /remeda@1.40.1:
+    resolution: {integrity: sha512-p5HzqKlMK02mvnalm3mavRaUeRljqKoE7r0QgDDzbZ9C0jFowisYLPU9e52gCZOd7Dn6KAWTPbVucJtcPfAIxA==}
+    dev: true
+
   /resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
     engines: {node: '>=4'}
@@ -2649,6 +2674,13 @@ packages:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
     dependencies:
       queue-microtask: 1.2.3
+    dev: true
+
+  /sade@1.8.1:
+    resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}
+    engines: {node: '>=6'}
+    dependencies:
+      mri: 1.2.0
     dev: true
 
   /scheduler@0.23.0:
