@@ -8,7 +8,7 @@ import {
   it,
 } from "~/test-utils";
 
-import App from "./App";
+import { App } from "./App";
 
 describe("<App />", () => {
   beforeEach(() => {
