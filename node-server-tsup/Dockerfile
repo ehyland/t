@@ -1,10 +1,10 @@
-FROM registry.gitlab.com/ehyland/private/node-auto:debian-11 as base
+FROM ehyland/node-auto:debian-12 AS base
 
 # install node
 COPY --chown=app:app .nvmrc ./
 RUN /docker/setup-env.sh
 
-FROM base as builder
+FROM base AS builder
 
 # install deps
 COPY --chown=app:app package.json pnpm-lock.yaml ./
@@ -17,10 +17,11 @@ RUN pnpm prune --prod
 
 FROM base
 
+COPY --from=builder /app/package.json /app/package.json
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/dist /app/dist
 COPY --from=builder /app/resources /app/resources
 
-ENV PORT 8080
+ENV PORT=8080
 
-CMD [ "node", "dist/index.mjs" ]
+CMD [ "node", "dist/index.js" ]

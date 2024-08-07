@@ -1,19 +1,9 @@
-import * as indexRoute from '~/routes/index-route';
-import { config } from '~/config';
-import express from 'express';
-import { createServer } from 'http';
-import morgan from 'morgan';
-import cors from 'cors';
+import { createServer } from "node:http";
+import { config } from "~/config";
+import { app } from "./app";
 
-const app = express();
 const httpServer = createServer(app);
 
-app.use(morgan('tiny'));
-app.use(cors());
-app.use(express.json());
-
-indexRoute.register(app);
-
-httpServer.listen(config.PORT, () => {
+httpServer.listen(config.PORT, "0.0.0.0", () => {
   console.log(`🚀 Server is now running on http://localhost:${config.PORT}`);
 });
