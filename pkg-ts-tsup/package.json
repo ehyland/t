@@ -1,0 +1,35 @@
+{
+  "name": "@bad-hacking/lib",
+  "version": "0.0.1",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "packageManager": "pnpm@9.7.0",
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "test": "vitest",
+    "test:ci": "CI=true vitest",
+    "format": "prettier --check .",
+    "lint": "biome check",
+    "check": "pnpm format && pnpm lint && pnpm test:ci && tsc && echo success"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
+    "@types/node": "^22.2.0",
+    "prettier": "^3.3.3",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.12",
+    "remeda": "^2.10.1"
+  }
+}
