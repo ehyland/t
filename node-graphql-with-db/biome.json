@@ -1,0 +1,38 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "organizeImports": {
+    "enabled": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "complexity": {
+        "noForEach": "off"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off",
+        "noSkippedTests": "error",
+        "noExplicitAny": "off"
+      },
+      "correctness": {
+        "noUnusedImports": "error"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": false
+  },
+  "files": {
+    "ignore": [
+      "dist/**",
+      "**/generated.ts",
+      "*-graphql.schema.json",
+      "migrations/**",
+      ".vscode/settings.json"
+    ]
+  }
+}
