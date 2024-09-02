@@ -1,0 +1,7 @@
+steps:
+  - label: Generate load
+    command: scripts/ci/e2e-tests
+    env:
+      PLAYWRIGHT_BASE_URL: https://example.eamon.sh
+    artifact_paths:
+      - '.playwright/**/*'

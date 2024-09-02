@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cd "$(dirname $0)/../.."
+
+pnpm install
+
+export COMPOSE_PROJECT_NAME="${BUILDKITE_JOB_ID:-example}"
+
+eval $(./scripts/docker-build-args.cjs)
+
+clean_up () {
+  EXIT_CODE=$?
+  docker compose down
+
+  if [[ $EXIT_CODE == 0 ]]; then 
+    echo "✨ Test passed"
+  else
+    echo "🔥 Test failed, check logs"
+  fi
+
+  exit $EXIT_CODE
+} 
+
+trap clean_up EXIT
+
+echo "--- building containers"
+docker compose build --pull
+
+if [[ -z "${PLAYWRIGHT_BASE_URL:-}" ]]; then 
+  echo "--- starting app in docker"
+  docker compose up --force-recreate test-app >& e2e-test-services.log &
+fi
+
+echo "--- starting e2e tests"
+docker compose run --rm -it playwright

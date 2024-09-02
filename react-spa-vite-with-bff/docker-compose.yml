@@ -1,0 +1,17 @@
+services:
+  test-app:
+    build:
+      target: runtime
+  playwright:
+    command: scripts/docker/playwright-wrapper
+    ipc: host
+    network_mode: 'service:test-app'
+    build:
+      target: playwright
+      args:
+        - PLAYWRIGHT_VERSION=${PLAYWRIGHT_VERSION}
+    environment:
+      - CI=true
+      - PLAYWRIGHT_BASE_URL
+    volumes:
+      - .playwright:/app/.playwright
