@@ -15,7 +15,8 @@ clean_up () {
 trap clean_up EXIT
 
 if [[ -z "${PLAYWRIGHT_BASE_URL:-}" ]]; then
-  wait-port "http://localhost:4000"
+  export PLAYWRIGHT_BASE_URL="http://test-app:4000"
+  wait-port "${PLAYWRIGHT_BASE_URL}"
 fi
 
 playwright test

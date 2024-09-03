@@ -10,11 +10,13 @@ eval $(./scripts/docker-build-args.cjs)
 
 IMAGE="${CI_DOCKER_REGISTRY}/example:${IMAGE_TAG}"
 
-docker build . \
+docker build \
   --tag "$IMAGE" \
   --target "runtime" \
   --build-arg "NODE_VERSION=${NODE_VERSION}" \
-  --build-arg "PLAYWRIGHT_VERSION=${PLAYWRIGHT_VERSION}"
+  --build-arg "PLAYWRIGHT_VERSION=${PLAYWRIGHT_VERSION}" \
+  --progress=plain \
+  .
 
 if [[ -n "${CI:-}" ]]; then
   print-docker-build-success-message "$IMAGE"

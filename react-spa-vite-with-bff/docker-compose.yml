@@ -2,10 +2,11 @@ services:
   test-app:
     build:
       target: runtime
+    environment:
+      - PORT=4000
   playwright:
     command: scripts/docker/playwright-wrapper
     ipc: host
-    network_mode: 'service:test-app'
     build:
       target: playwright
       args:

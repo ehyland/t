@@ -6,7 +6,7 @@ cd "$(dirname $0)/../.."
 
 pnpm install
 
-export COMPOSE_PROJECT_NAME="${BUILDKITE_JOB_ID:-example}"
+export COMPOSE_PROJECT_NAME="${BUILDKITE_JOB_ID:-}"
 
 eval $(./scripts/docker-build-args.cjs)
 
