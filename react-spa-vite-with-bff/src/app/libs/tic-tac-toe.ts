@@ -64,6 +64,15 @@ export const lineChecks = [
   (game: BoardState) => checkLine(walkCross(game, 'bottom_left')),
 ];
 
+export function checkForWinner(board: BoardState) {
+  for (const check of lineChecks) {
+    const result = check(board);
+    if (result !== false) {
+      return result;
+    }
+  }
+}
+
 export function positionKey(x: number, y: number) {
   return `x=${x},y=${y}`;
 }

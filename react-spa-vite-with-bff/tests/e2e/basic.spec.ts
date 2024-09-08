@@ -7,7 +7,15 @@ test('basic e2e test', async ({ page }) => {
 
   await page.goto('/');
 
-  async function playPosition(x: number, y: number, marker: 'x' | 'o') {
+  async function clickPosition({
+    x,
+    y,
+    marker,
+  }: {
+    x: number;
+    y: number;
+    marker: 'x' | 'o';
+  }) {
     await checkStatus(`Next turn ${marker}`);
     await page.getByTestId(positionKey(x, y)).getByRole('button').click();
     await expect(page.getByTestId(positionKey(x, y))).toContainText(marker);
@@ -17,11 +25,11 @@ test('basic e2e test', async ({ page }) => {
     await expect(page.getByTestId('game-status')).toContainText(expected);
   }
 
-  await playPosition(0, 0, 'x');
-  await playPosition(1, 1, 'o');
-  await playPosition(0, 1, 'x');
-  await playPosition(2, 1, 'o');
-  await playPosition(0, 2, 'x');
+  await clickPosition({ x: 0, y: 0, marker: 'x' });
+  await clickPosition({ x: 1, y: 1, marker: 'o' });
+  await clickPosition({ x: 0, y: 1, marker: 'x' });
+  await clickPosition({ x: 2, y: 1, marker: 'o' });
+  await clickPosition({ x: 0, y: 2, marker: 'x' });
 
   await checkStatus('x wins!');
 });

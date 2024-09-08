@@ -7,6 +7,7 @@
     "dev": "NODE_ENV=development node --import tsx src/server/index.ts",
     "start": "node dist/server/index.js",
     "test:e2e": "playwright test",
+    "test": "vitest",
     "test:unit": "vitest",
     "build": "pnpm run '/^build:.*/'",
     "build:server": "vite build --ssr src/server/index.ts --config vite.config.server.ts",
