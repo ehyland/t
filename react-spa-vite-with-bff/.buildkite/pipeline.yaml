@@ -9,10 +9,10 @@ steps:
       ci-docker-login
       IMAGE_TAG="$BUILDKITE_BUILD_ID" ./scripts/ci/docker-build.sh
 
-  # - label: e2e test
-  #   command: scripts/ci/e2e-tests
-  #   artifact_paths:
-  #     - '.playwright/**/*'
+  - label: e2e test
+    command: scripts/ci/e2e-tests
+    artifact_paths:
+      - '.playwright/**/*'
 
   - wait
 
@@ -20,9 +20,18 @@ steps:
     branches: $BUILDKITE_PIPELINE_DEFAULT_BRANCH
     command: |
       ci-docker-login
-      # IMAGE_TAG=production \
-      #   ./scripts/ci/docker-build.sh push
-      # deploy-eamon-sh-container example
-      # flush-eamon-sh-varnish-cache example.eamon.sh
+      IMAGE_TAG=production \
+        ./scripts/ci/docker-build.sh push
+      update-media-server-container example-app
+      flush-eamon-sh-varnish-cache example-app.eamon.sh
     env:
       IMAGE_TAG: production
+
+  - wait
+
+  - label: Smoke Test
+    command: scripts/ci/e2e-tests
+    env:
+      PLAYWRIGHT_BASE_URL: https://example-app.eamon.sh
+    artifact_paths:
+      - '.playwright/**/*'

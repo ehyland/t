@@ -3,4 +3,4 @@ import { type Actions, actions } from './actions';
 import type { State } from './core';
 
 export const { StoreProvider, useActions, useSelector, useStore } =
-  createReactHooks<State, Actions>(actions);
+  createReactHooks<State, Actions>(() => actions);

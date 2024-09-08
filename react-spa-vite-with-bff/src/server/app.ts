@@ -1,12 +1,33 @@
 import path from 'node:path';
-import type { Express } from 'express';
 import express from 'express';
+import helmet from 'helmet';
 import { mutableCacheHeader } from './cache-control';
 import { trpcExpressMiddleware } from './router';
 
 const CLIENT_DIR = path.resolve('dist/client');
 
-export async function applyAssetMiddleware(app: Express) {
+export async function createApp() {
+  const app = express();
+
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+    }),
+  );
+
+  if (process.env.NODE_ENV === 'development') {
+    console.log('adding vite middleware');
+    const vite = await import('vite');
+
+    const viteDevServer = await vite.createServer({
+      server: { middlewareMode: true },
+    });
+
+    app.use(viteDevServer.middlewares);
+  }
+
+  app.use('/trpc', trpcExpressMiddleware);
+
   app.use(
     '/assets',
     express.static(`${CLIENT_DIR}/assets`, {
@@ -37,8 +58,6 @@ export async function applyAssetMiddleware(app: Express) {
         res.sendFile(path.resolve('dist/client/index.html'));
     }
   });
-}
 
-export async function applyTrpcMiddleware(app: Express) {
-  app.use('/trpc', trpcExpressMiddleware);
+  return app;
 }

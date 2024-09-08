@@ -2,8 +2,8 @@ import { createConfig } from '@bad-hacking/generate-component';
 
 export default createConfig({
   sourceBaseImportPrefix: '~/',
-  sourceBaseDir: 'src',
-  componentDirs: ['src/components'],
+  sourceBaseDir: 'src/app',
+  componentDirs: ['src/app/components'],
   createComponentIndexFile: false,
   createComponentsIndexFile: true,
   templates: {
