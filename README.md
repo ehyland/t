@@ -76,6 +76,13 @@ Templates are designed to be consumed with [degit](https://github.com/Rich-Harri
   ```
 
 
+- ### `react-spa-vite-with-bff`
+
+  ```shell
+  npx degit ehyland/t/react-spa-vite-with-bff my-app
+  ```
+
+
 - ### `react-ts-webpack-babel`
 
   ```shell
