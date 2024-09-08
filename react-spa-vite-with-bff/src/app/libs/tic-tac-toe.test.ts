@@ -23,12 +23,52 @@ describe('checkForWinner()', () => {
   });
 
   it('returns marker for winner', () => {
-    const result = checkForWinner([
-      ['x', 'o', 'x'],
-      ['o', 'x', 'o'],
-      ['x', 'x', 'o'],
-    ]);
+    expect(
+      checkForWinner([
+        ['x', 'o', 'x'],
+        ['o', 'x', 'o'],
+        ['x', 'x', 'o'],
+      ]),
+    ).toEqual({ marker: 'x' });
 
-    expect(result).toEqual({ marker: 'x' });
+    expect(
+      checkForWinner([
+        ['x', 'o', 'x'],
+        ['o', 'x', 'o'],
+        ['x', undefined, 'o'],
+      ]),
+    ).toEqual({ marker: 'x' });
+
+    expect(
+      checkForWinner([
+        [undefined, undefined, 'x'],
+        [undefined, 'x', undefined],
+        ['x', undefined, undefined],
+      ]),
+    ).toEqual({ marker: 'x' });
+
+    expect(
+      checkForWinner([
+        [undefined, undefined, undefined],
+        ['o', 'o', 'o'],
+        [undefined, undefined, undefined],
+      ]),
+    ).toEqual({ marker: 'o' });
+
+    expect(
+      checkForWinner([
+        [undefined, undefined, 'o'],
+        [undefined, undefined, 'o'],
+        [undefined, undefined, 'o'],
+      ]),
+    ).toEqual({ marker: 'o' });
+
+    expect(
+      checkForWinner([
+        ['o', undefined, undefined],
+        [undefined, 'o', undefined],
+        [undefined, undefined, 'o'],
+      ]),
+    ).toEqual({ marker: 'o' });
   });
 });
