@@ -1,8 +1,9 @@
-import type { ActionDefinitions } from '@bad-hacking/zustand';
-import type { State, Store } from './core';
+import type { ActionDefinitions } from '@bad-hacking/tanstack-store-extensions';
+import type { Store } from './core';
+import { resources } from './resources';
 
 function markPosition(store: Store, x: number, y: number) {
-  store.update((draft) => {
+  store.setState((draft) => {
     draft.ticTacToe.board[y][x] = draft.ticTacToe.nextPlayer;
     draft.ticTacToe.nextPlayer = draft.ticTacToe.nextPlayer === 'x' ? 'o' : 'x';
   });
@@ -12,4 +13,5 @@ export type Actions = typeof actions;
 
 export const actions = {
   markPosition,
-} satisfies ActionDefinitions<State>;
+  ...resources.actions,
+} satisfies ActionDefinitions;

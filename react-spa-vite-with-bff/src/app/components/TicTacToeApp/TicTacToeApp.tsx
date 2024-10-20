@@ -1,7 +1,9 @@
 import { cva } from 'class-variance-authority';
+import { useEffect } from 'react';
 import { type PositionState, positionKey } from '~/libs/tic-tac-toe';
 import { useActions, useSelector } from '~/store/react';
-import { selectWinner } from '~/store/selectors';
+import { resources } from '~/store/resources';
+import { selectIsGameOver, selectWinner } from '~/store/selectors';
 
 const box = cva(
   'relative aspect-square w-full flex justify-center items-center',
@@ -30,7 +32,7 @@ export function TicTacToeApp() {
       <div className="text-center text-2xl" data-testid="game-status">
         <GameStatus />
       </div>
-      <div className="grid grid-cols-3 gap-[--board-gap]">
+      <div className="grid grid-cols-3 gap-[--board-gap] max-w-[500px] w-full self-center">
         {board.flatMap((row, y) =>
           row.map((marker, x) => (
             <div
@@ -55,8 +57,9 @@ type BoardPositionProps = {
 
 export function BoardPosition({ state, x, y }: BoardPositionProps) {
   const actions = useActions();
+  const isGameOver = useSelector(selectIsGameOver);
 
-  if (state === undefined) {
+  if (state === undefined && !isGameOver) {
     return (
       <button
         className="w-full h-full"
@@ -72,10 +75,37 @@ export function BoardPosition({ state, x, y }: BoardPositionProps) {
 export function GameStatus() {
   const nextPlayer = useSelector((state) => state.ticTacToe.nextPlayer);
   const winner = useSelector(selectWinner);
+  const prise = useSelector(resources.selectors.prise.state);
+  const actions = useActions();
 
-  if (winner) {
-    return <>{winner.marker} wins!</>;
+  useEffect(() => {
+    actions.load('prise');
+  }, [actions]);
+
+  if (!winner) {
+    return <>Next turn {nextPlayer}</>;
   }
 
-  return <>Next turn {nextPlayer}</>;
+  if (prise.status === 'LOADING') {
+    return <>{winner.marker} wins, loading prise...</>;
+  }
+
+  if (prise.status === 'ERROR') {
+    return (
+      <>
+        {winner.marker} wins, but unfortunately there was an error loading the
+        prise!
+      </>
+    );
+  }
+
+  if (prise.status === 'LOADED') {
+    return (
+      <>
+        {winner.marker} wins {prise.data.formattedValue}!
+      </>
+    );
+  }
+
+  return null;
 }

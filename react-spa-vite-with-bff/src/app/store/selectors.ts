@@ -11,3 +11,7 @@ export const selectWinner = (state: State) => {
 
   return false;
 };
+
+export const selectIsGameOver = (state: State) => {
+  return selectWinner(state) !== false;
+};

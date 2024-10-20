@@ -31,7 +31,7 @@ test('basic e2e test', async ({ page }) => {
   await clickPosition({ x: 2, y: 1, marker: 'o' });
   await clickPosition({ x: 0, y: 2, marker: 'x' });
 
-  await checkStatus('x wins!');
+  await checkStatus('x wins $100,000!');
 });
 
 function positionKey(x: number, y: number) {

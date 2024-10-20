@@ -71,7 +71,7 @@ export default defineConfig({
     denyImports({
       client: {
         specifiers: ['fs-extra', /^node:/, '@prisma/*'],
-        files: ['**/.server/*', '**/*.server.*'],
+        files: ['src/server/*', '**/.server/*', '**/*.server.*'],
       },
     }),
     react(),
@@ -85,5 +85,8 @@ export default defineConfig({
     setupFiles: ['./src/app/vitest-setup.ts'],
     include: ['src/**/*.test.?(c|m)[jt]s?(x)'],
     passWithNoTests: true,
+    env: {
+      ENV: 'test',
+    },
   },
 });

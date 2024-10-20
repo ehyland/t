@@ -2,6 +2,7 @@ import path from 'node:path';
 import express from 'express';
 import helmet from 'helmet';
 import { mutableCacheHeader } from './cache-control';
+import { log } from './logger';
 import { trpcExpressMiddleware } from './router';
 
 const CLIENT_DIR = path.resolve('dist/client');
@@ -15,18 +16,19 @@ export async function createApp() {
     }),
   );
 
+  app.use('/trpc', trpcExpressMiddleware);
+
   if (process.env.NODE_ENV === 'development') {
-    console.log('adding vite middleware');
+    log('adding vite middleware');
     const vite = await import('vite');
 
     const viteDevServer = await vite.createServer({
       server: { middlewareMode: true },
+      clearScreen: false,
     });
 
     app.use(viteDevServer.middlewares);
   }
-
-  app.use('/trpc', trpcExpressMiddleware);
 
   app.use(
     '/assets',

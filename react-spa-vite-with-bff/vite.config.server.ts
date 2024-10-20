@@ -8,6 +8,7 @@ export default defineConfig({
     target: 'node20',
   },
   define: {
+    // vite is only used for production build
     'process.env.NODE_ENV': JSON.stringify('production'),
   },
   plugins: [

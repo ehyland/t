@@ -78,6 +78,14 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
+  webServer:
+    process.env.ENV === 'dev'
+      ? {
+          command: 'scripts/dev/serve-dev.sh',
+          url: 'http://127.0.0.1:4000',
+          reuseExistingServer: !process.env.CI,
+        }
+      : undefined,
   // webServer: {
   //   command: 'npm run start',
   //   url: 'http://127.0.0.1:3000',
