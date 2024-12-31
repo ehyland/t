@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "a7b55316-5803-4a05-aa50-529f47772be4",
+  "id": "b4c9a311-d29a-4b3b-a26e-df5edac5c96c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "message": {
@@ -14,8 +14,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "completedAt": {
-          "name": "completedAt",
+        "createdAt": {
+          "name": "createdAt",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -39,7 +39,8 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     },
     "sequence": {
       "name": "sequence",
@@ -51,8 +52,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "completedAt": {
-          "name": "completedAt",
+        "createdAt": {
+          "name": "createdAt",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -76,9 +77,11 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     }
   },
+  "views": {},
   "enums": {},
   "_meta": {
     "schemas": {},

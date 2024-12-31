@@ -5,7 +5,7 @@ import { createApp } from "./app";
 import { config } from "./config";
 import { GRAPHQL_ENDPOINT_PATH } from "./constants";
 
-runMigration();
+await runMigration();
 
 const httpServer = createServer(createApp());
 

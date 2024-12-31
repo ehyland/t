@@ -18,7 +18,7 @@ export async function resetDB() {
 
 export function installDB() {
   beforeEach(async () => {
-    runMigration();
+    await runMigration();
     await resetDB();
   });
 }

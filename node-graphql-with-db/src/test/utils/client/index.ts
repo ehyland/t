@@ -28,7 +28,7 @@ export function installServer() {
   setGlobalDispatcher(agent);
 
   const requestClient = new GraphQLClient(GRAPHQL_ENDPOINT_URL, {
-    fetch: fetch as typeof global.fetch,
+    fetch: fetch as unknown as typeof global.fetch,
   });
 
   const client = getSdk(requestClient);

@@ -1,7 +1,6 @@
-import Database from "better-sqlite3";
-import { drizzle } from "drizzle-orm/better-sqlite3";
+import { drizzle } from "drizzle-orm/libsql";
 import { config } from "~/config";
 import * as schema from "./schema";
 
-const betterSqlite = new Database(config.DATABASE_FILE_PATH);
-export const db = drizzle(betterSqlite, { logger: false, schema: schema });
+export const drizzleDb = drizzle(config.DATABASE_FILE_PATH, { schema });
+export const db = Object.assign(drizzleDb, { schema });
