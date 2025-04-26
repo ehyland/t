@@ -1,6 +1,5 @@
-import './index.css';
+import * as ReactDOM from 'react-dom/client';
 
-import ReactDOM from 'react-dom/client';
 import App from './App';
 import { notNull } from './libs/object';
 

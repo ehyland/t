@@ -1,7 +1,8 @@
 import {
-  type InferStateSlice,
   defineResources,
+  type InferStateSlice,
 } from '@bad-hacking/tanstack-store-extensions';
+
 import { api } from '~/api';
 
 export const resources = defineResources({

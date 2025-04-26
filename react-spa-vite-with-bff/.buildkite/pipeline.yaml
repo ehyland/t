@@ -19,6 +19,7 @@ steps:
   - label: Build & deploy
     branches: $BUILDKITE_PIPELINE_DEFAULT_BRANCH
     command: |
+      exit 1 # update the service name and remove this
       ci-docker-login
       IMAGE_TAG=production \
         ./scripts/ci/docker-build.sh push
@@ -30,7 +31,9 @@ steps:
   - wait
 
   - label: Smoke Test
-    command: scripts/ci/e2e-tests
+    command: |
+      exit 1 # update the url in PLAYWRIGHT_BASE_URL and remove this
+      scripts/ci/e2e-tests
     env:
       PLAYWRIGHT_BASE_URL: https://example-app.eamon.sh
     artifact_paths:

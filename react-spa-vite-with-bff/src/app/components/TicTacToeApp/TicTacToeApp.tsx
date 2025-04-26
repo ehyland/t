@@ -1,51 +1,54 @@
-import { cva } from 'class-variance-authority';
+import {
+  AspectRatio,
+  Container,
+  Flex,
+  SimpleGrid,
+  Stack,
+  Text,
+  UnstyledButton,
+} from '@mantine/core';
 import { useEffect } from 'react';
-import { type PositionState, positionKey } from '~/libs/tic-tac-toe';
+
+import { positionKey, type PositionState } from '~/libs/tic-tac-toe';
 import { useActions, useSelector } from '~/store/react';
 import { resources } from '~/store/resources';
 import { selectIsGameOver, selectWinner } from '~/store/selectors';
 
-const box = cva(
-  'relative aspect-square w-full flex justify-center items-center',
-  {
-    variants: {
-      firstRow: {
-        true: [],
-        false: [
-          "before:content[''] before:absolute before:z-[1] before:bg-neutral-900 before:-top-[--board-gap] before:-left-[--board-gap] before:-right-[--board-gap] before:h-[--board-gap]",
-        ],
-      },
-      firstCol: {
-        true: [],
-        false: [
-          "after:content[''] after:absolute after:z-[1] after:bg-neutral-900 after:-left-[--board-gap] after:-top-[--board-gap] after:-bottom-[--board-gap] after:w-[--board-gap]",
-        ],
-      },
-    },
-  },
-);
-
 export function TicTacToeApp() {
   const board = useSelector((state) => state.ticTacToe.board);
+
   return (
-    <div className="px-4 py-6 flex gap-8 flex-col [--board-gap:theme(spacing.1)]">
-      <div className="text-center text-2xl" data-testid="game-status">
-        <GameStatus />
-      </div>
-      <div className="grid grid-cols-3 gap-[--board-gap] max-w-[500px] w-full self-center">
-        {board.flatMap((row, y) =>
-          row.map((marker, x) => (
-            <div
-              key={positionKey(x, y)}
-              data-testid={positionKey(x, y)}
-              className={box({ firstRow: y === 0, firstCol: x === 0 })}
+    <>
+      <Container size="xs">
+        <Stack>
+          <Text data-testid="game-status" ta="center" size="xl">
+            <GameStatus />
+          </Text>
+          <AspectRatio ratio={1} w="100%">
+            <SimpleGrid
+              cols={3}
+              bg="black"
+              spacing="2px"
+              style={{ gridTemplateRows: '1fr 1fr 1fr' }}
             >
-              <BoardPosition state={marker} x={x} y={y} />
-            </div>
-          )),
-        )}
-      </div>
-    </div>
+              {board.flatMap((row, y) =>
+                row.map((marker, x) => (
+                  <Flex
+                    key={positionKey(x, y)}
+                    data-testid={positionKey(x, y)}
+                    align="center"
+                    justify="center"
+                    bg="white"
+                  >
+                    <BoardPosition state={marker} x={x} y={y} />
+                  </Flex>
+                )),
+              )}
+            </SimpleGrid>
+          </AspectRatio>
+        </Stack>
+      </Container>
+    </>
   );
 }
 
@@ -61,15 +64,15 @@ export function BoardPosition({ state, x, y }: BoardPositionProps) {
 
   if (state === undefined && !isGameOver) {
     return (
-      <button
-        className="w-full h-full"
-        type="button"
+      <UnstyledButton
         onClick={() => actions.markPosition(x, y)}
+        w="100%"
+        h="100%"
       />
     );
   }
 
-  return <span className="text-5xl">{state}</span>;
+  return <Text size="xl">{state}</Text>;
 }
 
 export function GameStatus() {

@@ -1,6 +1,8 @@
 import type { ImmerStore } from '@bad-hacking/tanstack-store-extensions';
+
 import type { BoardState, PlayerKey } from '~/libs/tic-tac-toe';
-import { type ResourcesStateSlice, resources } from './resources';
+
+import { resources, type ResourcesStateSlice } from './resources';
 
 export type State = {
   ticTacToe: {

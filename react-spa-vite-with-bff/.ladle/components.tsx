@@ -1,5 +1,6 @@
 import { type GlobalProvider, ThemeState } from '@ladle/react';
-import { ThemeProvider } from '../src/components/ThemeProvider';
+
+import { ThemeProvider } from '../src/app/components/ThemeProvider/ThemeProvider';
 
 const themeMap = {
   [ThemeState.Auto]: undefined,

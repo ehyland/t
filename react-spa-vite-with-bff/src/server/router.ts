@@ -1,5 +1,6 @@
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
 import * as trpcExpress from '@trpc/server/adapters/express';
+
 import { mutableCacheHeader } from './cache-control';
 import { publicProcedure, router } from './trpc';
 

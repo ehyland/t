@@ -1,34 +1,16 @@
-import fs from 'node:fs/promises';
 import react from '@vitejs/plugin-react-swc';
 import type { PluginOption } from 'vite';
 import { denyImports } from 'vite-env-only';
 import { VitePWA } from 'vite-plugin-pwa';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
+
 import * as constants from './src/app/constants';
 
 // set env for html template
 Object.entries(constants).map(([key, value]) => {
   process.env[`VITE_${key}`] = value;
 });
-
-const assetManifestPlugin: PluginOption = {
-  name: 'move-build-manifest',
-  apply: 'build',
-  config: (config) => {
-    return {
-      build: {
-        manifest: 'build-manifest.json',
-      },
-    };
-  },
-  closeBundle: async () => {
-    await fs.rename(
-      'dist/client/build-manifest.json',
-      'dist/build-manifest.json',
-    );
-  },
-};
 
 const webManifestPlugin: PluginOption = VitePWA({
   strategies: 'generateSW',
@@ -38,7 +20,7 @@ const webManifestPlugin: PluginOption = VitePWA({
     runtimeCaching: [
       {
         urlPattern: ({ request }) =>
-          request.url.startsWith('https://example-app.eamon.sh/trpc/'),
+          request.url.startsWith(`${constants.PROD_BASE_URL}/trpc/`),
         handler: 'NetworkFirst',
       },
     ],
@@ -47,7 +29,7 @@ const webManifestPlugin: PluginOption = VitePWA({
     name: constants.APP_NAME,
     short_name: constants.APP_NAME,
     description: constants.APP_DESCRIPTION,
-    start_url: 'https://example-app.eamon.sh',
+    start_url: constants.PROD_BASE_URL,
     display: 'standalone',
     theme_color: constants.THEME_COLOR,
     background_color: constants.THEME_COLOR,
@@ -76,7 +58,6 @@ export default defineConfig({
     }),
     react(),
     tsconfigPaths(),
-    assetManifestPlugin,
     webManifestPlugin,
   ],
   test: {

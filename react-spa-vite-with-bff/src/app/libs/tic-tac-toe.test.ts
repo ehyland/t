@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+
 import { checkForWinner } from './tic-tac-toe';
 
 describe('checkForWinner()', () => {

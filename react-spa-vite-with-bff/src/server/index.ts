@@ -1,4 +1,5 @@
 import closeWithGrace from 'close-with-grace';
+
 import { createApp } from './app';
 import { log } from './logger';
 

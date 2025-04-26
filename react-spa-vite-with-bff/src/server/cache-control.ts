@@ -1,4 +1,5 @@
 import type { Duration } from 'dayjs/plugin/duration';
+
 import { duration } from './duration';
 
 function createMutableCacheHeader({

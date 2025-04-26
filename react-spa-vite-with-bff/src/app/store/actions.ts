@@ -1,4 +1,5 @@
 import type { ActionDefinitions } from '@bad-hacking/tanstack-store-extensions';
+
 import type { Store } from './core';
 import { resources } from './resources';
 
