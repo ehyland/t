@@ -1,0 +1,9 @@
+steps:
+  - label: Generate load
+    command: |
+      exit 1 # update the url in PLAYWRIGHT_BASE_URL and remove this
+      scripts/ci/e2e-tests
+    env:
+      PLAYWRIGHT_BASE_URL: https://example-app.eamon.sh
+    artifact_paths:
+      - '.playwright/**/*'

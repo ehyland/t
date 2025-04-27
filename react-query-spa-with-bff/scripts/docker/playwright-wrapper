@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -euxo pipefail
+
+cd "$(dirname $0)/../.."
+
+export PATH="node_modules/.bin/:$PATH"
+
+clean_up () {
+  ARG=$?
+  chown -R 1000:1000 .playwright
+  exit $ARG
+} 
+
+trap clean_up EXIT
+
+if [[ -z "${PLAYWRIGHT_BASE_URL:-}" ]]; then
+  export PLAYWRIGHT_BASE_URL="http://test-app:4000"
+  wait-port "${PLAYWRIGHT_BASE_URL}"
+fi
+
+playwright test

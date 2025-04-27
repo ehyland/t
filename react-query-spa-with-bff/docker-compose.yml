@@ -1,0 +1,18 @@
+services:
+  test-app:
+    build:
+      target: runtime
+    environment:
+      - PORT=4000
+  playwright:
+    command: scripts/docker/playwright-wrapper
+    ipc: host
+    build:
+      target: playwright
+      args:
+        - PLAYWRIGHT_VERSION=${PLAYWRIGHT_VERSION}
+    environment:
+      - CI=true
+      - PLAYWRIGHT_BASE_URL
+    volumes:
+      - .playwright:/app/.playwright

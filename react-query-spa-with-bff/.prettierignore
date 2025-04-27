@@ -1,0 +1,6 @@
+/build/
+/dist/
+/node_modules/
+/.playwright/
+/pnpm-lock.yaml
+/vite.config.ts.timestamp-*

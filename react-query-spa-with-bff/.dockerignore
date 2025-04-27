@@ -1,0 +1,8 @@
+.env.local
+/node_modules
+/dist
+/playwright-report
+/test-results
+/Dockerfile
+/docker-compose.yaml
+/.playwright
