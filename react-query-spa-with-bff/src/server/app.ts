@@ -5,11 +5,11 @@ import helmet from 'helmet';
 
 import { mutableCacheHeader } from './cache-control';
 import { log } from './logger';
-import { trpcExpressMiddleware } from './router';
+import { trpcExpressMiddleware } from './rpc/appRouter';
 
 const CLIENT_DIR = path.resolve('dist/client');
 
-export async function createApp() {
+export function createApp() {
   const app = express();
 
   app.use(
@@ -22,14 +22,18 @@ export async function createApp() {
 
   if (process.env.NODE_ENV === 'development') {
     log('adding vite middleware');
-    const vite = await import('vite');
+    const viteDevServer = (async () => {
+      const vite = await import('vite');
 
-    const viteDevServer = await vite.createServer({
-      server: { middlewareMode: true },
-      clearScreen: false,
+      return await vite.createServer({
+        server: { middlewareMode: true },
+        clearScreen: false,
+      });
+    })();
+
+    app.use(async (req, res, next) => {
+      (await viteDevServer).middlewares(req, res, next);
     });
-
-    app.use(viteDevServer.middlewares);
   }
 
   app.use(

@@ -1,2 +1,2 @@
 export { ThemeProvider } from '~/components/ThemeProvider/ThemeProvider';
-export { TicTacToeApp } from '~/components/TicTacToeApp/TicTacToeApp';
+export { AppLoginScreen } from '~/components/AppLoginScreen/AppLoginScreen';

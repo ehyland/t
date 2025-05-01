@@ -21,6 +21,7 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
+      "~/s/*": ["./src/server/*"],
       "~/*": ["./src/app/*"]
     }
   },

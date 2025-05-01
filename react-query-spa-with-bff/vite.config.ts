@@ -60,11 +60,16 @@ export default defineConfig({
     tsconfigPaths(),
     webManifestPlugin,
   ],
+  resolve: {
+    alias: {
+      '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/app/vitest-setup.ts'],
-    include: ['src/**/*.test.?(c|m)[jt]s?(x)'],
+    include: ['src/app/**/*.test.?(c|m)[jt]s?(x)'],
     passWithNoTests: true,
     env: {
       ENV: 'test',

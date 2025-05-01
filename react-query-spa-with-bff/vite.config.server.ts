@@ -20,4 +20,14 @@ export default defineConfig({
     }),
     tsconfigPaths(),
   ],
+  test: {
+    globals: true,
+    environment: 'node',
+    include: ['src/server/**/*.test.?(c|m)[jt]s?(x)'],
+    setupFiles: ['./src/server/test-utils/vitest-setup.ts'],
+    passWithNoTests: true,
+    env: {
+      ENV: 'test',
+    },
+  },
 });

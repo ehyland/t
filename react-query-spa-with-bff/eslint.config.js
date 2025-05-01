@@ -1,7 +1,9 @@
+import { fixupPluginRules } from '@eslint/compat';
 import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import gitignore from 'eslint-config-flat-gitignore';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import drizzle from 'eslint-plugin-drizzle';
 import * as pluginImportX from 'eslint-plugin-import-x';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -27,8 +29,12 @@ export default defineConfig([
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
-    plugins: { js, 'simple-import-sort': simpleImportSort },
-    extends: ['js/recommended'],
+    plugins: {
+      js,
+      'simple-import-sort': simpleImportSort,
+      drizzle: fixupPluginRules(drizzle),
+    },
+    extends: ['js/recommended', 'drizzle/recommended'],
     rules: {
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
