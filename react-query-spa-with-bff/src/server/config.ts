@@ -11,6 +11,7 @@ const env = z
   .object({
     PORT: z.coerce.number().default(4000),
     DATABASE_FILE_PATH: z.string(),
+    COOKIE_SECRET: z.string().nonempty(),
   })
   .parse(process.env);
 

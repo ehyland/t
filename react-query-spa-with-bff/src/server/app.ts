@@ -1,11 +1,13 @@
 import path from 'node:path';
 
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 
 import { mutableCacheHeader } from './cache-control';
 import { log } from './logger';
 import { trpcExpressMiddleware } from './rpc/appRouter';
+import { config } from './config';
 
 const CLIENT_DIR = path.resolve('dist/client');
 
@@ -17,6 +19,8 @@ export function createApp() {
       contentSecurityPolicy: false,
     }),
   );
+
+  app.use(cookieParser(config.COOKIE_SECRET));
 
   app.use('/trpc', trpcExpressMiddleware);
 

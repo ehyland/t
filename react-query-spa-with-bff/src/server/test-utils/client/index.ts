@@ -1,11 +1,14 @@
+import { createTRPCClient, httpBatchLink } from '@trpc/client';
+import { cookie } from 'http-cookie-agent/undici';
 import fs from 'node:fs';
 import { createServer } from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
+import { beforeEach } from 'node:test';
+import { CookieJar } from 'tough-cookie';
+import { Agent, fetch, RequestInit } from 'undici';
 import { afterAll, beforeAll } from 'vitest';
 import { createApp } from '~/s/app';
-import { Agent, fetch, RequestInit } from 'undici';
-import { createTRPCClient, httpBatchLink } from '@trpc/client';
 import type { AppRouter } from '~/s/rpc/appRouter';
 
 export function installServer() {
@@ -16,16 +19,17 @@ export function installServer() {
   const TMP_DIR = path.resolve(fs.mkdtempSync(`${os.tmpdir()}/`));
   const UNIX_SOCKET = path.resolve(TMP_DIR, 'app.sock');
 
+  const jar = new CookieJar();
   const agent = new Agent({
     connect: {
       socketPath: UNIX_SOCKET,
     },
-  });
+  }).compose(cookie({ jar }));
 
   const client = createTRPCClient<AppRouter>({
     links: [
       httpBatchLink({
-        url: 'http://localhost:3000/trpc',
+        url: `${MOCK_BASE_URL}/trpc`,
         fetch: (input, init) =>
           fetch(input as string, {
             ...(init as RequestInit),
@@ -33,6 +37,10 @@ export function installServer() {
           }),
       }),
     ],
+  });
+
+  beforeEach(async () => {
+    await jar.removeAllCookies();
   });
 
   beforeAll(async () => {
@@ -53,5 +61,5 @@ export function installServer() {
     fs.rmSync(TMP_DIR, { force: true, recursive: true });
   });
 
-  return { client, fetch, MOCK_BASE_URL };
+  return { client, jar, fetch, MOCK_BASE_URL };
 }
