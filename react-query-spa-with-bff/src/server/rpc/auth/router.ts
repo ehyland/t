@@ -1,10 +1,9 @@
 import * as z from 'zod';
 
 import { sleepFromNowFn } from '~/libs/time';
-import { Context, t } from '../trpc';
+
+import { authenticated, setSessionCookie, t } from '../trpc';
 import * as queries from './queries';
-import { config } from '~/s/config';
-import { DB } from '~/s/db/tables';
 
 export const SignUpRequest = z.object({
   email: z.string().email(),
@@ -30,24 +29,17 @@ export const authRouter = t.router({
 
     if (result.type === 'success') {
       setSessionCookie(ctx, result.account);
-      return { success: true, account: result.account };
+      return { success: true as const, account: result.account };
     }
 
     // prevent timing attacks
     await sleepRemaining();
 
     return {
-      success: false,
+      success: false as const,
       reason: 'Password incorrect or account not found',
     };
   }),
-});
 
-function setSessionCookie(ctx: Context, account: DB.Account) {
-  ctx.res.cookie('session', account.id, {
-    secure: config.ENV === 'prod',
-    httpOnly: true,
-    sameSite: 'lax',
-    signed: true,
-  });
-}
+  account: authenticated.query(async ({ ctx }) => ctx.account),
+});

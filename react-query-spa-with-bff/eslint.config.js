@@ -1,9 +1,8 @@
-import { fixupPluginRules } from '@eslint/compat';
 import js from '@eslint/js';
+import vitest from '@vitest/eslint-plugin';
 import { defineConfig } from 'eslint/config';
 import gitignore from 'eslint-config-flat-gitignore';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
-import drizzle from 'eslint-plugin-drizzle';
 import * as pluginImportX from 'eslint-plugin-import-x';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -32,10 +31,11 @@ export default defineConfig([
     plugins: {
       js,
       'simple-import-sort': simpleImportSort,
-      drizzle: fixupPluginRules(drizzle),
+      // drizzle: fixupPluginRules(drizzle),
     },
-    extends: ['js/recommended', 'drizzle/recommended'],
+    extends: ['js/recommended' /* , 'drizzle/recommended' */],
     rules: {
+      'no-unused-vars': 'off',
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
 
@@ -63,6 +63,12 @@ export default defineConfig([
   {
     files: ['src/app/**/*.test.{js,mjs,cjs,ts,jsx,tsx}'],
     ...testingLibrary.configs['flat/react'],
+  },
+
+  // vitest tests
+  {
+    files: ['src/**/*.test.{js,mjs,cjs,ts,jsx,tsx}'],
+    ...vitest.configs.recommended,
   },
 
   // client config

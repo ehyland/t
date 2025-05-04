@@ -82,3 +82,9 @@ export async function checkCredentials(
     account: R.omit(accountWithPassword, ['password']),
   };
 }
+
+export async function getUserAccount(id: string) {
+  return await db.query.account.findFirst({
+    where: (t, { eq }) => eq(t.id, id),
+  });
+}

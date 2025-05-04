@@ -1,11 +1,12 @@
+import { TRPCClientError } from '@trpc/client';
+import type { TRPC_ERROR_CODE_KEY } from '@trpc/server/rpc';
 import { expect } from 'vitest';
 
-import { TRPCClientError } from '@trpc/client';
-import { TRPC_ERROR_CODE_KEY } from '@trpc/server/rpc';
-import { AppRouter } from '../rpc/appRouter';
+import type { AppRouter } from '../rpc/appRouter';
 
 type TRPCMatcherParams = {
   code?: TRPC_ERROR_CODE_KEY;
+  message?: string;
   inputErrors?: { [key: string | number | symbol]: string[] };
 };
 
@@ -16,6 +17,7 @@ expect.extend({
     const withCodeSuffix =
       params.code === undefined ? '' : ` with code ${params.code}`;
 
+    // Must be a rejects assertion
     if (promise !== 'rejects') {
       return {
         message: () =>
@@ -34,12 +36,14 @@ expect.extend({
       ...extra,
     });
 
+    // must be trpc error
     if (!isTRPCClientError(received)) {
       return failureTemplate(
         `${received} is not an instance of TRPCClientError`,
       );
     }
 
+    // check inputErrors
     if (
       params.inputErrors !== undefined &&
       !equals(received.data?.inputErrors, params.inputErrors)
@@ -50,10 +54,20 @@ expect.extend({
       });
     }
 
+    // check code
     if (params.code !== undefined && received.data?.code !== params.code) {
-      return failureTemplate(
-        `Received error code was "${received.data?.code}"`,
-      );
+      return failureTemplate(`Unexpected error code`, {
+        actual: received.data?.code,
+        expected: params.code,
+      });
+    }
+
+    // check message
+    if (params.message !== undefined && received.message !== params.message) {
+      return failureTemplate(`Unexpected error message`, {
+        actual: received.message,
+        expected: params.message,
+      });
     }
 
     return {
