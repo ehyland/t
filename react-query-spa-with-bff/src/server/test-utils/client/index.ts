@@ -1,13 +1,16 @@
-import { createTRPCClient, httpBatchLink } from '@trpc/client';
-import { cookie } from 'http-cookie-agent/undici';
 import fs from 'node:fs';
 import { createServer } from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
 import { beforeEach } from 'node:test';
+
+import { createTRPCClient, httpBatchLink } from '@trpc/client';
+import { cookie } from 'http-cookie-agent/undici';
+import superjson from 'superjson';
 import { CookieJar } from 'tough-cookie';
-import { Agent, fetch, RequestInit } from 'undici';
+import { Agent, fetch, type RequestInit } from 'undici';
 import { afterAll, beforeAll } from 'vitest';
+
 import { createApp } from '~/s/app';
 import type { AppRouter } from '~/s/rpc/appRouter';
 
@@ -29,6 +32,7 @@ export function installServer() {
   const client = createTRPCClient<AppRouter>({
     links: [
       httpBatchLink({
+        transformer: superjson,
         url: `${MOCK_BASE_URL}/trpc`,
         fetch: (input, init) =>
           fetch(input as string, {

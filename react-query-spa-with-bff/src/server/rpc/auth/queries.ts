@@ -1,9 +1,12 @@
 import crypto from 'node:crypto';
-import { z } from 'zod';
-import { db } from '~/s/db/db';
-import { DB } from '~/s/db/tables';
-import { SignUpRequest } from './router';
+
 import * as R from 'remeda';
+import type { z } from 'zod';
+
+import { db } from '~/s/db/db';
+import type { DB } from '~/s/db/tables';
+
+import type { SignUpRequest } from './router';
 
 type CreateResult =
   | { type: 'success'; account: DB.Account }
@@ -12,14 +15,14 @@ type CreateResult =
 export async function createAccount(
   input: z.infer<typeof SignUpRequest>,
 ): Promise<CreateResult> {
-  let salt = crypto.randomBytes(16).toString('hex');
-  let hash = crypto
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = crypto
     .pbkdf2Sync(input.password, salt, 1000, 64, 'sha256')
     .toString('hex');
 
   const [error, account] = await db
     .insert(db.schema.account)
-    .values({ email: input.email })
+    .values({ email: input.email, emailVerified: false })
     .returning()
     .then(
       ([account]) => [undefined, account] as const,
@@ -34,6 +37,7 @@ export async function createAccount(
     return { type: 'error', reason: 'unknown' };
   }
 
+  // save password
   await db
     .insert(db.schema.password)
     .values({ hash, salt, idAccount: account.id });
@@ -81,6 +85,24 @@ export async function checkCredentials(
     type: 'success',
     account: R.omit(accountWithPassword, ['password']),
   };
+}
+
+export async function createOneTimeCode(
+  accountId: string,
+  purpose: DB.OneTimeCode['purpose'],
+) {
+  const [record] = await db
+    .insert(db.schema.oneTimeCode)
+    .values({
+      idAccount: accountId,
+      code: Array.from({ length: 6 })
+        .map(() => crypto.randomInt(0, 10))
+        .join(''),
+      purpose: purpose,
+    })
+    .returning();
+
+  return record;
 }
 
 export async function getUserAccount(id: string) {

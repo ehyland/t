@@ -1,5 +1,6 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 import type * as trpcExpress from '@trpc/server/adapters/express';
+import superjson from 'superjson';
 import { ZodError } from 'zod';
 
 import { config } from '../config';
@@ -35,6 +36,7 @@ export function setSessionCookie(ctx: Context, account: DB.Account) {
 export type Context = Awaited<ReturnType<typeof createContext>>;
 
 export const t = initTRPC.context<Context>().create({
+  transformer: superjson,
   errorFormatter(opts) {
     const { shape, error } = opts;
     return {

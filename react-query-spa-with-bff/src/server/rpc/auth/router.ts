@@ -42,4 +42,14 @@ export const authRouter = t.router({
   }),
 
   account: authenticated.query(async ({ ctx }) => ctx.account),
+
+  requestEmailVerificationCode: t.procedure.mutation(async () => {}),
+
+  provideEmailVerificationCode: t.procedure
+    .input(
+      z.object({
+        code: z.string(),
+      }),
+    )
+    .mutation(async () => {}),
 });

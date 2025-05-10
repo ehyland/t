@@ -36,6 +36,8 @@ export default defineConfig([
     extends: ['js/recommended' /* , 'drizzle/recommended' */],
     rules: {
       'no-unused-vars': 'off',
+      '@typescript-eslint/no-namespace': 'off',
+
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
 

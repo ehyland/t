@@ -33,10 +33,11 @@ describe('signUp', () => {
 
     // Check can get account
     expect(await client.auth.account.query()).toEqual({
-      createdAt: expect.any(String),
+      createdAt: expect.any(Date),
       email: TEST_EMAIL,
+      emailVerified: false,
       id: result.account.id,
-      updatedAt: expect.any(String),
+      updatedAt: expect.any(Date),
     });
   });
 
@@ -111,10 +112,11 @@ describe('login', () => {
     // response shape snapshot (no unexpected fields)
     expect(loginResponse).toEqual({
       account: {
-        createdAt: expect.any(String),
+        createdAt: expect.any(Date),
         email: account.email,
+        emailVerified: false,
         id: account.id,
-        updatedAt: expect.any(String),
+        updatedAt: expect.any(Date),
       },
       success: true,
     });
@@ -169,10 +171,11 @@ describe('account', () => {
 
     // response shape snapshot (no unexpected fields)
     expect(await client.auth.account.query()).toEqual({
-      createdAt: expect.any(String),
+      createdAt: expect.any(Date),
       email: account.email,
+      emailVerified: false,
       id: account.id,
-      updatedAt: expect.any(String),
+      updatedAt: expect.any(Date),
     });
   });
 });
