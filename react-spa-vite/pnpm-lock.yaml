@@ -56,8 +56,8 @@ devDependencies:
     specifier: ^0.4.6
     version: 0.4.6(eslint@8.57.0)
   happy-dom:
-    specifier: ^14.3.3
-    version: 14.3.3
+    specifier: ^15.0.0
+    version: 15.11.7
   postcss:
     specifier: ^8.4.38
     version: 8.4.38
@@ -75,7 +75,7 @@ devDependencies:
     version: 4.3.2(typescript@5.4.3)(vite@5.2.4)
   vitest:
     specifier: ^1.4.0
-    version: 1.4.0(happy-dom@14.3.3)
+    version: 1.4.0(happy-dom@15.11.7)
 
 packages:
 
@@ -753,7 +753,7 @@ packages:
       dom-accessibility-api: 0.6.3
       lodash: 4.17.21
       redent: 3.0.0
-      vitest: 1.4.0(happy-dom@14.3.3)
+      vitest: 1.4.0(happy-dom@15.11.7)
     dev: true
 
   /@testing-library/react@14.2.2(react-dom@18.2.0)(react@18.2.0):
@@ -1820,9 +1820,9 @@ packages:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: true
 
-  /happy-dom@14.3.3:
-    resolution: {integrity: sha512-hsecx5SDUUwVW0MK5sxFWA7WHLabvzIEKjf9gah+siJp/LD+bMyFfAO18b9mlc5meMADVUm6O/YF4+CliaMD6g==}
-    engines: {node: '>=16.0.0'}
+  /happy-dom@15.11.7:
+    resolution: {integrity: sha512-KyrFvnl+J9US63TEzwoiJOQzZBJY7KgBushJA8X61DMbNsH+2ONkDuLDnCnwUiPTF42tLoEmrPyoqbenVA5zrg==}
+    engines: {node: '>=18.0.0'}
     dependencies:
       entities: 4.5.0
       webidl-conversions: 7.0.0
@@ -3088,7 +3088,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitest@1.4.0(happy-dom@14.3.3):
+  /vitest@1.4.0(happy-dom@15.11.7):
     resolution: {integrity: sha512-gujzn0g7fmwf83/WzrDTnncZt2UiXP41mHuFYFrdwaLRVQ6JYQEiME2IfEjU3vcFL3VKa75XhI3lFgn+hfVsQw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3122,7 +3122,7 @@ packages:
       chai: 4.4.1
       debug: 4.3.4
       execa: 8.0.1
-      happy-dom: 14.3.3
+      happy-dom: 15.11.7
       local-pkg: 0.5.0
       magic-string: 0.30.8
       pathe: 1.1.2
