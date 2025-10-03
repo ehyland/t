@@ -11,7 +11,7 @@ import { getSdk } from "./generated";
 
 export function installServer() {
   const MOCK_BASE_URL = "http://test.example.com";
-  const app = createApp();
+  const app = createApp({ withLogger: false });
   const httpServer = createServer(app);
 
   const GRAPHQL_ENDPOINT_URL = `${MOCK_BASE_URL}${GRAPHQL_ENDPOINT_PATH}`;

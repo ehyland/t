@@ -15,7 +15,7 @@
     "db:generate-migration": "ENV=dev drizzle-kit generate",
     "db:run-migrations": "ENV=dev drizzle-kit migrate",
     "typecheck": "tsc",
-    "lint": "biome check",
+    "lint": "eslint",
     "format": "prettier --check ./",
     "format:fix": "prettier --write ./",
     "test": "vitest",
@@ -48,7 +48,6 @@
     "zod": "^4.1.11"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.5",
     "@eslint/js": "^9.36.0",
     "@graphql-codegen/add": "^6.0.0",
     "@graphql-codegen/cli": "6.0.0",
