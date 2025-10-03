@@ -1,0 +1,36 @@
+query GetMessages($fromSequenceNumber: Int) {
+  messages(fromSequenceNumber: $fromSequenceNumber) {
+    ...message
+  }
+}
+
+query GetMessage($id: ID!) {
+  message(id: $id) {
+    ...message
+  }
+}
+
+subscription SubscribeMessages {
+  messageSubscription {
+    ...incomingMessage
+  }
+}
+
+mutation SendMessage($input: NewMessage!) {
+  sendMessage(message: $input) {
+    ...incomingMessage
+  }
+}
+
+fragment message on Message {
+  id
+  sequence
+  content
+}
+
+fragment incomingMessage on IncomingMessage {
+  localId
+  message {
+    ...message
+  }
+}

@@ -11,7 +11,7 @@ const config = {
         codegen: {
           overwrite: true,
           generates: {
-            "src/graphql/generated.ts": {
+            "src/server/graphql/generated.ts": {
               plugins: [
                 "@graphql-codegen/typescript",
                 "@graphql-codegen/typescript-resolvers",
@@ -23,9 +23,9 @@ const config = {
                 typesPrefix: "GQL",
                 useTypeImports: true,
                 // mappers: {
-                //   Message: "~/models#Message",
+                //   Message: "~/server/models#Message",
                 // },
-                contextType: "~/graphql/context#Context",
+                contextType: "~/server/graphql/context#Context",
               },
             },
           },
@@ -35,12 +35,12 @@ const config = {
     "test-client": {
       schema: GRAPHQL_SCHEMA_FILES,
       exclude: ["**/generated.ts"],
-      documents: ["src/test/utils/client/operations/**/*.graphql"],
+      documents: ["src/server/test/utils/client/operations/**/*.graphql"],
       extensions: {
         codegen: {
           overwrite: true,
           generates: {
-            "src/test/utils/client/generated.ts": {
+            "src/server/test/utils/client/generated.ts": {
               plugins: [
                 "@graphql-codegen/typescript",
                 "@graphql-codegen/typescript-operations",
@@ -54,6 +54,40 @@ const config = {
                 typesPrefix: "GQL",
                 useTypeImports: true,
                 rawRequest: true,
+              },
+            },
+          },
+        } satisfies CodegenConfig,
+      },
+    },
+    app: {
+      schema: GRAPHQL_SCHEMA_FILES,
+      exclude: ["**/generated.ts"],
+      documents: ["src/app/graphql/operations.graphql"],
+      extensions: {
+        codegen: {
+          overwrite: true,
+          generates: {
+            "src/app/graphql/generated.ts": {
+              plugins: [
+                "@graphql-codegen/typescript",
+                "@graphql-codegen/typescript-operations",
+                "@graphql-codegen/typescript-urql",
+              ],
+              config: {
+                maybeValue: "T | undefined",
+                withHooks: false,
+                enumsAsTypes: true,
+                strictScalars: true,
+                typesPrefix: "GQL",
+                useTypeImports: true,
+                useIndexSignature: true,
+                scalars: {
+                  Date: "string",
+                  DateTime: "string",
+                  ISO8601DateTime: "string",
+                  Time: "string",
+                },
               },
             },
           },

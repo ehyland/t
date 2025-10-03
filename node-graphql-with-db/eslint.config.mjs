@@ -18,9 +18,9 @@ export default defineConfig(
     },
   },
   {
-    files: ["src/graphql/generated.ts", "src/test/utils/client/generated.ts"],
+    files: ["**/generated.ts"],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
     },
-  },
+  }
 );
