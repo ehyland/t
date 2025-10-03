@@ -1,6 +1,6 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 import type { IGraphQLConfig } from "graphql-config";
-import { GRAPHQL_SCHEMA_FILES } from "./src/constants";
+import { GRAPHQL_SCHEMA_FILES } from "./src/server/constants";
 
 const config = {
   projects: {

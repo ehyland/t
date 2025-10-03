@@ -1,8 +1,8 @@
 import { Table, is, sql } from "drizzle-orm";
 import { beforeEach } from "vitest";
-import { db } from "~/db/db";
-import { runMigration } from "~/db/migrator";
-import * as schema from "~/db/schema";
+import { db } from "~/server/db/db";
+import { runMigration } from "~/server/db/migrator";
+import * as schema from "~/server/db/schema";
 
 export async function resetDB() {
   db.run(sql.raw("PRAGMA foreign_keys=OFF"));

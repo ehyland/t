@@ -2,9 +2,12 @@ import { readFileSync } from "node:fs";
 import { useDisableIntrospection } from "@graphql-yoga/plugin-disable-introspection";
 import { buildSchema } from "graphql";
 import { createGraphQLError, createSchema, createYoga } from "graphql-yoga";
-import { config } from "~/config";
-import { GRAPHQL_ENDPOINT_PATH, GRAPHQL_SCHEMA_FILES } from "~/constants";
-import * as queries from "~/db/queries";
+import { config } from "~/server/config";
+import {
+  GRAPHQL_ENDPOINT_PATH,
+  GRAPHQL_SCHEMA_FILES,
+} from "~/server/constants";
+import * as queries from "~/server/db/queries";
 import {
   type Context,
   type ServerContext,

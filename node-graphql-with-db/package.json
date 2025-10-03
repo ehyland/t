@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "ENV=dev tsx watch src/index.ts",
+    "dev": "ENV=dev tsx watch src/server/index.ts",
     "start:dev": "ENV=dev node dist/index.js",
     "studio": "ENV=dev drizzle-kit studio",
     "build": "tsup-node",

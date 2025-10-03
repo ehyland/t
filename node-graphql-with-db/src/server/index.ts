@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import closeWithGrace from "close-with-grace";
-import { runMigration } from "~/db/migrator";
+import { runMigration } from "~/server/db/migrator";
 import { createApp } from "./app";
 import { config } from "./config";
 import { GRAPHQL_ENDPOINT_PATH } from "./constants";

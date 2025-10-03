@@ -5,8 +5,8 @@ import { range } from "remeda";
 import invariant from "tiny-invariant";
 import { ulid } from "ulid";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { db } from "~/db/db";
-import * as testUtils from "~/test/utils";
+import { db } from "~/server/db/db";
+import * as testUtils from "~/server/test/utils";
 import {
   type GQLIncomingMessageFragment,
   type GQLSubscribeMessagesSubscription,

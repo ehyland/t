@@ -5,8 +5,8 @@ import path from "node:path";
 import { GraphQLClient } from "graphql-request";
 import { Agent, fetch, setGlobalDispatcher } from "undici";
 import { afterAll, beforeAll } from "vitest";
-import { createApp } from "~/app";
-import { GRAPHQL_ENDPOINT_PATH } from "~/constants";
+import { createApp } from "~/server/app";
+import { GRAPHQL_ENDPOINT_PATH } from "~/server/constants";
 import { getSdk } from "./generated";
 
 export function installServer() {

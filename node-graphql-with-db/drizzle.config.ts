@@ -1,6 +1,6 @@
 import type { Config } from "drizzle-kit";
-import { config } from "./src/config";
-import { DATABASE_MIGRATIONS_FOLDER } from "./src/constants";
+import { config } from "./src/server/config";
+import { DATABASE_MIGRATIONS_FOLDER } from "./src/server/constants";
 
 export default {
   schema: "./src/db/schema.ts",

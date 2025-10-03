@@ -1,7 +1,7 @@
 import cors from "cors";
 import express from "express";
 import morgan from "morgan";
-import * as graphql from "~/graphql";
+import * as graphql from "~/server/graphql";
 import type { AppContext } from "./graphql/context";
 import { createPubSub } from "./graphql/pubSub";
 import * as routes from "./routes";
