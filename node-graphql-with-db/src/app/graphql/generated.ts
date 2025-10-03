@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import * as Urql from 'urql';
 export type Maybe<T> = T | undefined;
 export type InputMaybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -117,6 +118,10 @@ export const GetMessagesDocument = gql`
   }
 }
     ${MessageFragmentDoc}`;
+
+export function useGetMessagesQuery(options?: Omit<Urql.UseQueryArgs<GQLGetMessagesQueryVariables>, 'query'>) {
+  return Urql.useQuery<GQLGetMessagesQuery, GQLGetMessagesQueryVariables>({ query: GetMessagesDocument, ...options });
+};
 export const GetMessageDocument = gql`
     query GetMessage($id: ID!) {
   message(id: $id) {
@@ -124,6 +129,10 @@ export const GetMessageDocument = gql`
   }
 }
     ${MessageFragmentDoc}`;
+
+export function useGetMessageQuery(options: Omit<Urql.UseQueryArgs<GQLGetMessageQueryVariables>, 'query'>) {
+  return Urql.useQuery<GQLGetMessageQuery, GQLGetMessageQueryVariables>({ query: GetMessageDocument, ...options });
+};
 export const SubscribeMessagesDocument = gql`
     subscription SubscribeMessages {
   messageSubscription {
@@ -131,6 +140,10 @@ export const SubscribeMessagesDocument = gql`
   }
 }
     ${IncomingMessageFragmentDoc}`;
+
+export function useSubscribeMessagesSubscription<TData = GQLSubscribeMessagesSubscription>(options?: Omit<Urql.UseSubscriptionArgs<GQLSubscribeMessagesSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandler<GQLSubscribeMessagesSubscription, TData>) {
+  return Urql.useSubscription<GQLSubscribeMessagesSubscription, TData, GQLSubscribeMessagesSubscriptionVariables>({ query: SubscribeMessagesDocument, ...options }, handler);
+};
 export const SendMessageDocument = gql`
     mutation SendMessage($input: NewMessage!) {
   sendMessage(message: $input) {
@@ -138,3 +151,7 @@ export const SendMessageDocument = gql`
   }
 }
     ${IncomingMessageFragmentDoc}`;
+
+export function useSendMessageMutation() {
+  return Urql.useMutation<GQLSendMessageMutation, GQLSendMessageMutationVariables>(SendMessageDocument);
+};

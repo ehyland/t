@@ -76,7 +76,7 @@ const config = {
               ],
               config: {
                 maybeValue: "T | undefined",
-                withHooks: false,
+                withHooks: true,
                 enumsAsTypes: true,
                 strictScalars: true,
                 typesPrefix: "GQL",
