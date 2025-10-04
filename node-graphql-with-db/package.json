@@ -31,6 +31,9 @@
   "dependencies": {
     "@graphql-yoga/plugin-disable-introspection": "^2.17.0",
     "@libsql/client": "^0.15.15",
+    "@mantine/core": "^8.3.3",
+    "@mantine/hooks": "^8.3.3",
+    "@tabler/icons-react": "^3.35.0",
     "close-with-grace": "^2.3.0",
     "cookie": "^1.0.2",
     "cookie-signature": "^1.2.2",
@@ -90,6 +93,8 @@
     "graphql-sse": "^2.5.4",
     "msw": "^2.11.3",
     "outdent": "^0.8.0",
+    "postcss": "^8.5.6",
+    "postcss-preset-mantine": "^1.18.0",
     "prettier": "^3.6.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
