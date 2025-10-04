@@ -82,6 +82,7 @@ const config = {
                 typesPrefix: "GQL",
                 useTypeImports: true,
                 useIndexSignature: true,
+                nonOptionalTypename: true,
                 scalars: {
                   Date: "string",
                   DateTime: "string",
@@ -89,6 +90,9 @@ const config = {
                   Time: "string",
                 },
               },
+            },
+            "src/app/graphql/generated-introspection-schema.json": {
+              plugins: ["@graphql-codegen/urql-introspection"],
             },
           },
         } satisfies CodegenConfig,

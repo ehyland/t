@@ -1,18 +1,23 @@
+import { cacheExchange } from "@urql/exchange-graphcache";
 import type { ReactNode } from "react";
 import { Client, Provider, fetchExchange } from "urql";
 import {
-  cacheExchange,
-  type NullArray,
-  type Scalar,
-} from "@urql/exchange-graphcache";
-import { type GQLSubscribeMessagesSubscription } from "./generated";
+  type GQLMessageFragment,
+  type GQLSubscribeMessagesSubscription,
+} from "./generated";
+import schema from "./generated-introspection-schema.json";
 const GRAPHQL_API_URL = `/api/v2/graphql`;
+
+export namespace API {
+  export type Message = GQLMessageFragment;
+}
 
 export const client = new Client({
   url: GRAPHQL_API_URL,
   fetchSubscriptions: true,
   exchanges: [
     cacheExchange({
+      schema: schema,
       updates: {
         Subscription: {
           messageSubscription(
@@ -20,11 +25,15 @@ export const client = new Client({
             _args,
             cache
           ) {
-            const list =
-              (cache.resolve("Query", "messages") as Array<string>) || [];
+            const list = (cache.resolve("Query", "messages") as string[]) ?? [];
+
             for (const { message } of parent.messageSubscription) {
-              list.push(`${message.__typename}:${message.id}`);
+              const key = cache.keyOfEntity(message);
+              if (key) {
+                list.push(key);
+              }
             }
+
             cache.link("Query", "messages", list);
           },
         },

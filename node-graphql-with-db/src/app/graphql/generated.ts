@@ -18,20 +18,20 @@ export type Scalars = {
 };
 
 export type GQLIncomingMessage = {
-  __typename?: 'IncomingMessage';
+  __typename: 'IncomingMessage';
   localId: Scalars['String']['output'];
   message: GQLMessage;
 };
 
 export type GQLMessage = {
-  __typename?: 'Message';
+  __typename: 'Message';
   content: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   sequence: Scalars['Int']['output'];
 };
 
 export type GQLMutation = {
-  __typename?: 'Mutation';
+  __typename: 'Mutation';
   sendMessage: GQLIncomingMessage;
 };
 
@@ -46,7 +46,7 @@ export type GQLNewMessage = {
 };
 
 export type GQLQuery = {
-  __typename?: 'Query';
+  __typename: 'Query';
   message: GQLMessage;
   messages: Array<GQLMessage>;
 };
@@ -62,7 +62,7 @@ export type GQLQueryMessagesArgs = {
 };
 
 export type GQLSubscription = {
-  __typename?: 'Subscription';
+  __typename: 'Subscription';
   messageSubscription: Array<GQLIncomingMessage>;
 };
 
@@ -71,30 +71,30 @@ export type GQLGetMessagesQueryVariables = Exact<{
 }>;
 
 
-export type GQLGetMessagesQuery = { __typename?: 'Query', messages: Array<{ __typename?: 'Message', id: string, sequence: number, content: string }> };
+export type GQLGetMessagesQuery = { __typename: 'Query', messages: Array<{ __typename: 'Message', id: string, sequence: number, content: string }> };
 
 export type GQLGetMessageQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type GQLGetMessageQuery = { __typename?: 'Query', message: { __typename?: 'Message', id: string, sequence: number, content: string } };
+export type GQLGetMessageQuery = { __typename: 'Query', message: { __typename: 'Message', id: string, sequence: number, content: string } };
 
 export type GQLSubscribeMessagesSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GQLSubscribeMessagesSubscription = { __typename?: 'Subscription', messageSubscription: Array<{ __typename?: 'IncomingMessage', localId: string, message: { __typename?: 'Message', id: string, sequence: number, content: string } }> };
+export type GQLSubscribeMessagesSubscription = { __typename: 'Subscription', messageSubscription: Array<{ __typename: 'IncomingMessage', localId: string, message: { __typename: 'Message', id: string, sequence: number, content: string } }> };
 
 export type GQLSendMessageMutationVariables = Exact<{
   input: GQLNewMessage;
 }>;
 
 
-export type GQLSendMessageMutation = { __typename?: 'Mutation', sendMessage: { __typename?: 'IncomingMessage', localId: string, message: { __typename?: 'Message', id: string, sequence: number, content: string } } };
+export type GQLSendMessageMutation = { __typename: 'Mutation', sendMessage: { __typename: 'IncomingMessage', localId: string, message: { __typename: 'Message', id: string, sequence: number, content: string } } };
 
-export type GQLMessageFragment = { __typename?: 'Message', id: string, sequence: number, content: string };
+export type GQLMessageFragment = { __typename: 'Message', id: string, sequence: number, content: string };
 
-export type GQLIncomingMessageFragment = { __typename?: 'IncomingMessage', localId: string, message: { __typename?: 'Message', id: string, sequence: number, content: string } };
+export type GQLIncomingMessageFragment = { __typename: 'IncomingMessage', localId: string, message: { __typename: 'Message', id: string, sequence: number, content: string } };
 
 export const MessageFragmentDoc = gql`
     fragment message on Message {
