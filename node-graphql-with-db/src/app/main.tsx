@@ -40,5 +40,5 @@ createRoot(document.getElementById("root")!).render(
     <GraphQLClientProvider>
       <App />
     </GraphQLClientProvider>
-  </StrictMode>
+  </StrictMode>,
 );

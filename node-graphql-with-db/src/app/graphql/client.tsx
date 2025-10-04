@@ -23,7 +23,7 @@ export const client = new Client({
           messageSubscription(
             parent: GQLSubscribeMessagesSubscription,
             _args,
-            cache
+            cache,
           ) {
             const list = (cache.resolve("Query", "messages") as string[]) ?? [];
 
