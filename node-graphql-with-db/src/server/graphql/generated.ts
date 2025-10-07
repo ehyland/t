@@ -41,6 +41,7 @@ export type GQLMutationSendMessageArgs = {
 };
 
 export type GQLNewMessage = {
+  channel: Scalars['String']['input'];
   content: Scalars['String']['input'];
   localId: Scalars['String']['input'];
 };
@@ -58,6 +59,7 @@ export type GQLQueryMessageArgs = {
 
 
 export type GQLQueryMessagesArgs = {
+  channel: Scalars['String']['input'];
   fromSequenceNumber?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -183,7 +185,7 @@ export type GQLMutationResolvers<ContextType = Context, ParentType extends GQLRe
 
 export type GQLQueryResolvers<ContextType = Context, ParentType extends GQLResolversParentTypes['Query'] = GQLResolversParentTypes['Query']> = ResolversObject<{
   message?: Resolver<GQLResolversTypes['Message'], ParentType, ContextType, RequireFields<GQLQueryMessageArgs, 'id'>>;
-  messages?: Resolver<Array<GQLResolversTypes['Message']>, ParentType, ContextType, Partial<GQLQueryMessagesArgs>>;
+  messages?: Resolver<Array<GQLResolversTypes['Message']>, ParentType, ContextType, RequireFields<GQLQueryMessagesArgs, 'channel'>>;
 }>;
 
 export type GQLSubscriptionResolvers<ContextType = Context, ParentType extends GQLResolversParentTypes['Subscription'] = GQLResolversParentTypes['Subscription']> = ResolversObject<{

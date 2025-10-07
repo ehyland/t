@@ -2,8 +2,11 @@ import { cacheExchange } from "@urql/exchange-graphcache";
 import type { ReactNode } from "react";
 import { Client, Provider, fetchExchange } from "urql";
 import {
+  type GQLGetMessagesQueryVariables,
   type GQLMessageFragment,
   type GQLSubscribeMessagesSubscription,
+  type GQLGetMessagesQuery,
+  GetMessagesDocument,
 } from "./generated";
 import schema from "./generated-introspection-schema.json";
 const GRAPHQL_API_URL = `/api/v2/graphql`;
@@ -25,16 +28,22 @@ export const client = new Client({
             _args,
             cache,
           ) {
-            const list = (cache.resolve("Query", "messages") as string[]) ?? [];
-
-            for (const { message } of parent.messageSubscription) {
-              const key = cache.keyOfEntity(message);
-              if (key) {
-                list.push(key);
-              }
-            }
-
-            cache.link("Query", "messages", list);
+            cache.updateQuery<
+              GQLGetMessagesQuery,
+              GQLGetMessagesQueryVariables
+            >(
+              { query: GetMessagesDocument, variables: { channel: "default" } },
+              (data) => {
+                return {
+                  ...data,
+                  __typename: "Query",
+                  messages: [
+                    ...(data?.messages ?? []),
+                    ...parent.messageSubscription.map((m) => m.message),
+                  ],
+                };
+              },
+            );
           },
         },
       },

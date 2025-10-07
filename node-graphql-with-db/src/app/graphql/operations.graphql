@@ -1,5 +1,5 @@
-query GetMessages($fromSequenceNumber: Int) {
-  messages(fromSequenceNumber: $fromSequenceNumber) {
+query GetMessages($channel: String!, $fromSequenceNumber: Int) {
+  messages(channel: $channel, fromSequenceNumber: $fromSequenceNumber) {
     ...message
   }
 }

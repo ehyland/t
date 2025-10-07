@@ -41,6 +41,7 @@ export type GQLMutationSendMessageArgs = {
 };
 
 export type GQLNewMessage = {
+  channel: Scalars['String']['input'];
   content: Scalars['String']['input'];
   localId: Scalars['String']['input'];
 };
@@ -58,6 +59,7 @@ export type GQLQueryMessageArgs = {
 
 
 export type GQLQueryMessagesArgs = {
+  channel: Scalars['String']['input'];
   fromSequenceNumber?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -67,6 +69,7 @@ export type GQLSubscription = {
 };
 
 export type GQLGetMessagesQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
   fromSequenceNumber?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
@@ -112,14 +115,14 @@ export const IncomingMessageFragmentDoc = gql`
 }
     ${MessageFragmentDoc}`;
 export const GetMessagesDocument = gql`
-    query GetMessages($fromSequenceNumber: Int) {
-  messages(fromSequenceNumber: $fromSequenceNumber) {
+    query GetMessages($channel: String!, $fromSequenceNumber: Int) {
+  messages(channel: $channel, fromSequenceNumber: $fromSequenceNumber) {
     ...message
   }
 }
     ${MessageFragmentDoc}`;
 
-export function useGetMessagesQuery(options?: Omit<Urql.UseQueryArgs<GQLGetMessagesQueryVariables>, 'query'>) {
+export function useGetMessagesQuery(options: Omit<Urql.UseQueryArgs<GQLGetMessagesQueryVariables>, 'query'>) {
   return Urql.useQuery<GQLGetMessagesQuery, GQLGetMessagesQueryVariables>({ query: GetMessagesDocument, ...options });
 };
 export const GetMessageDocument = gql`

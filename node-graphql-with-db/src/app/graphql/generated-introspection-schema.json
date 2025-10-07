@@ -158,6 +158,16 @@
             },
             "args": [
               {
+                "name": "channel",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
                 "name": "fromSequenceNumber",
                 "type": {
                   "kind": "SCALAR",

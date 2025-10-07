@@ -37,7 +37,7 @@ describe("graphql", () => {
 
       beforeEach(async () => {
         firstSendResponse = await client.SendMessage({
-          input: { content: "Hello", localId: "1234" },
+          input: { content: "Hello", localId: "1234", channel: "default" },
         });
       });
 
@@ -50,7 +50,7 @@ describe("graphql", () => {
       });
 
       it("is persisted to DB", async () => {
-        const result = await db.query.messageTable.findFirst({
+        const result = await db.query.message.findFirst({
           where: (cols, { eq }) =>
             eq(cols.id, getMessage(firstSendResponse).id),
         });
@@ -58,7 +58,9 @@ describe("graphql", () => {
       });
 
       it("makes message available via getMessages endpoint", async () => {
-        const getMessagesResponse = await client.GetMessages();
+        const getMessagesResponse = await client.GetMessages({
+          channel: "default",
+        });
         expect(getMessagesResponse.data.messages).toEqual([
           {
             id: getMessage(firstSendResponse).id,
@@ -84,7 +86,7 @@ describe("graphql", () => {
 
         beforeEach(async () => {
           secondSendResponse = await client.SendMessage({
-            input: { content: "Hi", localId: "5678" },
+            input: { content: "Hi", localId: "5678", channel: "default" },
           });
         });
 
@@ -93,7 +95,7 @@ describe("graphql", () => {
         });
 
         it("is persisted to DB", async () => {
-          const result = await db.query.messageTable.findFirst({
+          const result = await db.query.message.findFirst({
             where: (cols, { eq }) =>
               eq(cols.id, getMessage(secondSendResponse).id),
           });
@@ -112,10 +114,10 @@ describe("graphql", () => {
         });
 
         it("is tracks latest sequence in DB", async () => {
-          const result = await db.query.sequenceTable.findFirst({
-            where: (cols, { eq }) => eq(cols.partitionKey, "message"),
+          const result = await db.query.channelSequence.findFirst({
+            where: (cols, { eq }) => eq(cols.channel, "default"),
           });
-          expect(result?.lastUsedSequence).toEqual(2);
+          expect(result?.nextSequence).toEqual(2);
         });
       });
     });
@@ -127,7 +129,11 @@ describe("graphql", () => {
         bulkSendResponses = await Promise.all(
           range(1, 21).map((i) => {
             return client.SendMessage({
-              input: { content: `Bulk message ${i}`, localId: `l_${i}` },
+              input: {
+                content: `Bulk message ${i}`,
+                localId: `l_${i}`,
+                channel: "default",
+              },
             });
           }),
         );
@@ -146,7 +152,7 @@ describe("graphql", () => {
       });
 
       it("messages can be fetched in order", async () => {
-        const messages = await client.GetMessages();
+        const messages = await client.GetMessages({ channel: "default" });
         expect(messages.data.messages.map((m) => m.content)).toEqual([
           "Bulk message 1",
           "Bulk message 2",
@@ -179,6 +185,7 @@ describe("graphql", () => {
         invariant(fetchAfter);
 
         const messages = await client.GetMessages({
+          channel: "default",
           fromSequenceNumber: fetchAfter.data.sendMessage.message.sequence + 1,
         });
         expect(messages.data.messages.map((m) => m.content)).toEqual([
@@ -224,13 +231,25 @@ describe("graphql", () => {
 
     it("when a message is sent, its echoed back via subscription", async () => {
       const send1 = await client.SendMessage({
-        input: { content: "Hello world 1", localId: ulid() },
+        input: {
+          content: "Hello world 1",
+          localId: ulid(),
+          channel: "default",
+        },
       });
       const send2 = await client.SendMessage({
-        input: { content: "Hello world 2", localId: ulid() },
+        input: {
+          content: "Hello world 2",
+          localId: ulid(),
+          channel: "default",
+        },
       });
       const send3 = await client.SendMessage({
-        input: { content: "Hello world 3", localId: ulid() },
+        input: {
+          content: "Hello world 3",
+          localId: ulid(),
+          channel: "default",
+        },
       });
 
       await vi.waitFor(() => {

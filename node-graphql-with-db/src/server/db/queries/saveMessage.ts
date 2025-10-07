@@ -1,36 +1,26 @@
-import { eq } from "drizzle-orm";
-import { db } from "../db";
-import { type MessageRecord, messageTable, sequenceTable } from "../schema";
+import { sql } from "drizzle-orm";
+import { db, t } from "../db";
 
-export async function saveMessage(args: {
-  content: string;
-}): Promise<MessageRecord> {
-  const partitionKey = "message";
+export async function saveMessage(opts: { channel: string; content: string }) {
   return db.transaction(async (tx) => {
-    const sequence = await tx.query.sequenceTable.findFirst({
-      where: (cols, { eq }) => eq(cols.partitionKey, partitionKey),
-    });
+    const [{ nextSequence }] = await tx
+      .insert(t.channelSequence)
+      .values({ channel: opts.channel, nextSequence: 1 })
+      .onConflictDoUpdate({
+        target: t.channelSequence.channel,
+        set: { nextSequence: sql`${t.channelSequence.nextSequence} + 1` },
+      })
+      .returning({ nextSequence: t.channelSequence.nextSequence });
 
-    const lastUsedSequence = sequence?.lastUsedSequence ?? 0;
-    const newSequence = lastUsedSequence + 1;
-
-    const [record] = await tx
-      .insert(messageTable)
-      .values({ sequence: newSequence, content: args.content })
+    const [message] = await tx
+      .insert(t.message)
+      .values({
+        channel: opts.channel,
+        content: opts.content,
+        sequence: nextSequence,
+      })
       .returning();
 
-    // TODO: figure out how to make an atomic update, this is not it
-    if (lastUsedSequence === 0) {
-      await tx
-        .insert(sequenceTable)
-        .values({ lastUsedSequence: newSequence, partitionKey });
-    } else {
-      await tx
-        .update(sequenceTable)
-        .set({ lastUsedSequence: newSequence })
-        .where(eq(sequenceTable.partitionKey, partitionKey));
-    }
-
-    return record;
+    return message;
   });
 }

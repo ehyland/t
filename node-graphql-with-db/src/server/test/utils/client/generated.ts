@@ -42,6 +42,7 @@ export type GQLMutationSendMessageArgs = {
 };
 
 export type GQLNewMessage = {
+  channel: Scalars['String']['input'];
   content: Scalars['String']['input'];
   localId: Scalars['String']['input'];
 };
@@ -59,6 +60,7 @@ export type GQLQueryMessageArgs = {
 
 
 export type GQLQueryMessagesArgs = {
+  channel: Scalars['String']['input'];
   fromSequenceNumber?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -68,6 +70,7 @@ export type GQLSubscription = {
 };
 
 export type GQLGetMessagesQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
   fromSequenceNumber?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
@@ -113,8 +116,8 @@ export const IncomingMessage = gql`
 }
     ${Message}`;
 export const GetMessages = gql`
-    query GetMessages($fromSequenceNumber: Int) {
-  messages(fromSequenceNumber: $fromSequenceNumber) {
+    query GetMessages($channel: String!, $fromSequenceNumber: Int) {
+  messages(channel: $channel, fromSequenceNumber: $fromSequenceNumber) {
     ...message
   }
 }
@@ -156,8 +159,8 @@ export const IncomingMessageFragmentDoc = gql`
 }
     ${MessageFragmentDoc}`;
 export const GetMessagesDocument = gql`
-    query GetMessages($fromSequenceNumber: Int) {
-  messages(fromSequenceNumber: $fromSequenceNumber) {
+    query GetMessages($channel: String!, $fromSequenceNumber: Int) {
+  messages(channel: $channel, fromSequenceNumber: $fromSequenceNumber) {
     ...message
   }
 }
@@ -194,7 +197,7 @@ const SubscribeMessagesDocumentString = print(SubscribeMessagesDocument);
 const SendMessageDocumentString = print(SendMessageDocument);
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    GetMessages(variables?: GQLGetMessagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GQLGetMessagesQuery; errors?: GraphQLError[]; extensions?: any; headers: Headers; status: number; }> {
+    GetMessages(variables: GQLGetMessagesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GQLGetMessagesQuery; errors?: GraphQLError[]; extensions?: any; headers: Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<GQLGetMessagesQuery>(GetMessagesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'GetMessages', 'query', variables);
     },
     GetMessage(variables: GQLGetMessageQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GQLGetMessageQuery; errors?: GraphQLError[]; extensions?: any; headers: Headers; status: number; }> {

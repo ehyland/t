@@ -20,7 +20,7 @@
     "db:reset": "rm -rf migrations && ENV=dev drizzle-kit generate",
     "db:generate-migration": "ENV=dev drizzle-kit generate",
     "db:run-migrations": "ENV=dev drizzle-kit migrate",
-    "typecheck": "tsc",
+    "typecheck": "pnpm tsc -b --noEmit",
     "lint": "eslint",
     "format": "prettier --check ./",
     "format:fix": "prettier --write ./",

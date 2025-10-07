@@ -26,7 +26,7 @@ const App = () => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   useSubscribeMessagesSubscription();
   const [, sendMessage] = useSendMessageMutation();
-  const [{ data }] = useGetMessagesQuery();
+  const [{ data }] = useGetMessagesQuery({ variables: { channel: "default" } });
 
   useEffect(() => {
     scrollAreaRef.current!.scrollTo({
@@ -38,59 +38,45 @@ const App = () => {
   const handleSend = () => {
     const content = message.trim();
     if (content) {
-      sendMessage({ input: { content, localId: ulid() } });
+      sendMessage({ input: { content, localId: ulid(), channel: "default" } });
       setMessage("");
     }
   };
 
   return (
     <Container size="md" py="xl">
-      <Stack h="80vh">
-        <ScrollArea
-          viewportRef={scrollAreaRef}
-          flex={1}
-          p="md"
-          style={{
-            border: "1px solid #e9ecef",
-            borderRadius: "8px",
-          }}
-        >
-          <Stack gap="sm">
-            {data?.messages.map((m) => (
-              <Paper
-                key={m.id}
-                shadow="sm"
-                p="md"
-                withBorder
-                style={{
-                  backgroundColor: "#f8f9fa",
-                }}
-              >
-                <Text>{m.content}</Text>
-                <Text size="xs" c="dimmed" mt="xs">
-                  Message #{m.sequence}
-                </Text>
-              </Paper>
-            ))}
-          </Stack>
-        </ScrollArea>
-        <Group>
-          <TextInput
-            placeholder="Type your message..."
-            flex={1}
-            value={message}
-            onChange={(e) => setMessage(e.currentTarget.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSend();
-              }
-            }}
-          />
-          <Button onClick={handleSend} leftSection={<IconSend size={16} />}>
-            Send
-          </Button>
-        </Group>
-      </Stack>
+      <Paper withBorder>
+        <Stack h="80vh">
+          <ScrollArea viewportRef={scrollAreaRef} flex={1} p="md">
+            <Stack gap="sm">
+              {data?.messages.map((m) => (
+                <Paper key={m.id} shadow="sm" p="md" withBorder>
+                  <Text>{m.content}</Text>
+                  <Text size="xs" c="dimmed" mt="xs">
+                    Message #{m.sequence}
+                  </Text>
+                </Paper>
+              ))}
+            </Stack>
+          </ScrollArea>
+          <Group>
+            <TextInput
+              placeholder="Type your message..."
+              flex={1}
+              value={message}
+              onChange={(e) => setMessage(e.currentTarget.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSend();
+                }
+              }}
+            />
+            <Button onClick={handleSend} leftSection={<IconSend size={16} />}>
+              Send
+            </Button>
+          </Group>
+        </Stack>
+      </Paper>
     </Container>
   );
 };

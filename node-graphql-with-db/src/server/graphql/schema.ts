@@ -27,8 +27,9 @@ const resolvers = {
 
       return message;
     },
-    messages: async (_, { fromSequenceNumber }) => {
+    messages: async (_, { fromSequenceNumber, channel }) => {
       return queries.getMessages({
+        channel: channel,
         fromSequenceNumber: fromSequenceNumber ?? 0,
       });
     },
@@ -52,7 +53,10 @@ const resolvers = {
   },
   Mutation: {
     sendMessage: async (_, { message }, { pubSub }) => {
-      const record = await queries.saveMessage({ content: message.content });
+      const record = await queries.saveMessage({
+        channel: message.channel,
+        content: message.content,
+      });
 
       pubSub.emit("messages", [{ localId: message.localId, record }]);
 

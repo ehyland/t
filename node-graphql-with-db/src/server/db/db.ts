@@ -4,3 +4,4 @@ import * as schema from "./schema";
 
 export const drizzleDb = drizzle(config.DATABASE_FILE_PATH, { schema });
 export const db = Object.assign(drizzleDb, { schema });
+export const t = schema;
