@@ -8,7 +8,7 @@ import {
   type GQLGetMessagesQuery,
   GetMessagesDocument,
 } from "./generated";
-import schema from "./generated-introspection-schema.json";
+import schema from "./generated-introspection-schema.ts";
 const GRAPHQL_API_URL = `/api/v2/graphql`;
 
 export namespace API {

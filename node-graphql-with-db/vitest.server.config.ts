@@ -8,12 +8,20 @@ export default defineConfig(() => ({
       graphql: "graphql/index.js",
     },
   },
+  mode: "server",
   build: {
-    outDir: "dist/client",
-    assetsDir: "assets/static",
-    emitAssets: true,
-    copyPublicDir: true,
+    ssr: true,
+    outDir: "dist/server",
+    copyPublicDir: false,
     emptyOutDir: true,
+    rollupOptions: {
+      input: "src/server/index.ts",
+      output: {
+        entryFileNames: "[name].js",
+        chunkFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash][extname]",
+      },
+    },
   },
   test: {
     env: {
