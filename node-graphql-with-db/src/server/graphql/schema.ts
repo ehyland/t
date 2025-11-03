@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { useDisableIntrospection } from "@graphql-yoga/plugin-disable-introspection";
 import { buildSchema } from "graphql";
 import { createGraphQLError, createSchema, createYoga } from "graphql-yoga";
-import { config } from "~/server/config";
+import { config, DEFAULT_INTROSPECTION_ACCESS_KEY } from "~/server/config";
 import {
   GRAPHQL_ENDPOINT_PATH,
   GRAPHQL_SCHEMA_FILES,
@@ -77,11 +77,31 @@ const schema = createSchema<Context>({
   resolvers: resolvers,
 });
 
+if (
+  config.GRAPHQL_INTROSPECTION_ACCESS_KEY === DEFAULT_INTROSPECTION_ACCESS_KEY
+) {
+  console.warn(
+    "⚠️  GRAPHQL_INTROSPECTION_ACCESS_KEY is set to the default value, this is public and must be changed in production",
+  );
+}
+
 export const yoga = createYoga<ServerContext, UserContext>({
   schema,
-  graphiql: config.ENV === "dev",
+  graphiql: config.ENABLE_GRAPHIQL,
   landingPage: false,
   graphqlEndpoint: GRAPHQL_ENDPOINT_PATH,
-  plugins: config.ENV === "dev" ? [] : [useDisableIntrospection()],
+  plugins: [
+    useDisableIntrospection({
+      isDisabled: (request) => {
+        switch (config.GRAPHQL_INTROSPECTION_ACCESS_KEY) {
+          case "":
+          case request.headers.get("x-allow-introspection"):
+            return false;
+          default:
+            return true;
+        }
+      },
+    }),
+  ],
   context: buildContext,
 });

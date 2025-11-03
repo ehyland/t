@@ -1,4 +1,4 @@
-FROM ehyland/node-auto:debian-12 AS base
+FROM ehyland/node-auto:debian-13 AS base
 
 # install node
 COPY --chown=app:app .nvmrc ./
