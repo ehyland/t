@@ -1,0 +1,160 @@
+import gql from 'graphql-tag';
+import * as Urql from 'urql';
+export type Maybe<T> = T | undefined;
+export type InputMaybe<T> = T | undefined;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+};
+
+export type GQLIncomingMessage = {
+  __typename: 'IncomingMessage';
+  localId: Scalars['String']['output'];
+  message: GQLMessage;
+};
+
+export type GQLMessage = {
+  __typename: 'Message';
+  content: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  sequence: Scalars['Int']['output'];
+};
+
+export type GQLMutation = {
+  __typename: 'Mutation';
+  sendMessage: GQLIncomingMessage;
+};
+
+
+export type GQLMutationSendMessageArgs = {
+  message: GQLNewMessage;
+};
+
+export type GQLNewMessage = {
+  channel: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  localId: Scalars['String']['input'];
+};
+
+export type GQLQuery = {
+  __typename: 'Query';
+  message: GQLMessage;
+  messages: Array<GQLMessage>;
+};
+
+
+export type GQLQueryMessageArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type GQLQueryMessagesArgs = {
+  channel: Scalars['String']['input'];
+  fromSequenceNumber?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type GQLSubscription = {
+  __typename: 'Subscription';
+  messageSubscription: Array<GQLIncomingMessage>;
+};
+
+export type GQLGetMessagesQueryVariables = Exact<{
+  channel: Scalars['String']['input'];
+  fromSequenceNumber?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GQLGetMessagesQuery = { __typename: 'Query', messages: Array<{ __typename: 'Message', id: string, sequence: number, content: string }> };
+
+export type GQLGetMessageQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type GQLGetMessageQuery = { __typename: 'Query', message: { __typename: 'Message', id: string, sequence: number, content: string } };
+
+export type GQLSubscribeMessagesSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GQLSubscribeMessagesSubscription = { __typename: 'Subscription', messageSubscription: Array<{ __typename: 'IncomingMessage', localId: string, message: { __typename: 'Message', id: string, sequence: number, content: string } }> };
+
+export type GQLSendMessageMutationVariables = Exact<{
+  input: GQLNewMessage;
+}>;
+
+
+export type GQLSendMessageMutation = { __typename: 'Mutation', sendMessage: { __typename: 'IncomingMessage', localId: string, message: { __typename: 'Message', id: string, sequence: number, content: string } } };
+
+export type GQLMessageFragment = { __typename: 'Message', id: string, sequence: number, content: string };
+
+export type GQLIncomingMessageFragment = { __typename: 'IncomingMessage', localId: string, message: { __typename: 'Message', id: string, sequence: number, content: string } };
+
+export const MessageFragmentDoc = gql`
+    fragment message on Message {
+  id
+  sequence
+  content
+}
+    `;
+export const IncomingMessageFragmentDoc = gql`
+    fragment incomingMessage on IncomingMessage {
+  localId
+  message {
+    ...message
+  }
+}
+    ${MessageFragmentDoc}`;
+export const GetMessagesDocument = gql`
+    query GetMessages($channel: String!, $fromSequenceNumber: Int) {
+  messages(channel: $channel, fromSequenceNumber: $fromSequenceNumber) {
+    ...message
+  }
+}
+    ${MessageFragmentDoc}`;
+
+export function useGetMessagesQuery(options: Omit<Urql.UseQueryArgs<GQLGetMessagesQueryVariables>, 'query'>) {
+  return Urql.useQuery<GQLGetMessagesQuery, GQLGetMessagesQueryVariables>({ query: GetMessagesDocument, ...options });
+};
+export const GetMessageDocument = gql`
+    query GetMessage($id: ID!) {
+  message(id: $id) {
+    ...message
+  }
+}
+    ${MessageFragmentDoc}`;
+
+export function useGetMessageQuery(options: Omit<Urql.UseQueryArgs<GQLGetMessageQueryVariables>, 'query'>) {
+  return Urql.useQuery<GQLGetMessageQuery, GQLGetMessageQueryVariables>({ query: GetMessageDocument, ...options });
+};
+export const SubscribeMessagesDocument = gql`
+    subscription SubscribeMessages {
+  messageSubscription {
+    ...incomingMessage
+  }
+}
+    ${IncomingMessageFragmentDoc}`;
+
+export function useSubscribeMessagesSubscription<TData = GQLSubscribeMessagesSubscription>(options?: Omit<Urql.UseSubscriptionArgs<GQLSubscribeMessagesSubscriptionVariables>, 'query'>, handler?: Urql.SubscriptionHandler<GQLSubscribeMessagesSubscription, TData>) {
+  return Urql.useSubscription<GQLSubscribeMessagesSubscription, TData, GQLSubscribeMessagesSubscriptionVariables>({ query: SubscribeMessagesDocument, ...options }, handler);
+};
+export const SendMessageDocument = gql`
+    mutation SendMessage($input: NewMessage!) {
+  sendMessage(message: $input) {
+    ...incomingMessage
+  }
+}
+    ${IncomingMessageFragmentDoc}`;
+
+export function useSendMessageMutation() {
+  return Urql.useMutation<GQLSendMessageMutation, GQLSendMessageMutationVariables>(SendMessageDocument);
+};

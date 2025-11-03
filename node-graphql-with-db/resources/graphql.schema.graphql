@@ -1,19 +1,20 @@
 type Query {
   message(id: ID!): Message!
-  messages(fromSequenceNumber: Int): [Message!]!
-}
-
-type Subscription {
-  messageSubscription: [IncomingMessage!]!
+  messages(channel: String!, fromSequenceNumber: Int): [Message!]!
 }
 
 type Mutation {
   sendMessage(message: NewMessage!): IncomingMessage!
 }
 
+type Subscription {
+  messageSubscription: [IncomingMessage!]!
+}
+
 input NewMessage {
   localId: String!
   content: String!
+  channel: String!
 }
 
 type Message {

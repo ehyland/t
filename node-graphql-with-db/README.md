@@ -7,7 +7,7 @@ NodeJS Server with
 - DrizzleORM for ORM
 - Type safe environment config with zod
 - E2E test suite with real server, db and fetch + graphql client
-- Biome for linting
+- Eslint for linting
 - Prettier for formatting
 
 ## Usage
