@@ -11,7 +11,7 @@
   "keywords": [],
   "author": "Eamon Hyland",
   "license": "ISC",
-  "packageManager": "pnpm@7.9.3",
+  "packageManager": "pnpm@7.33.7",
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/plugin-transform-runtime": "^7.18.10",
