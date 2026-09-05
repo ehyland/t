@@ -11,7 +11,7 @@
   "keywords": [],
   "author": "Eamon Hyland",
   "license": "ISC",
-  "packageManager": "pnpm@8.15.1",
+  "packageManager": "pnpm@8.15.9",
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.16",
