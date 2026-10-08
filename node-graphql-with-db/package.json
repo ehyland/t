@@ -33,7 +33,7 @@
     "cookie-signature": "^1.2.2",
     "cors": "^2.8.5",
     "dayjs": "^1.11.19",
-    "drizzle-orm": "^0.44.7",
+    "drizzle-orm": "^0.45.0",
     "emittery": "^1.2.0",
     "express": "^5.1.0",
     "express-async-handler": "^1.2.0",
