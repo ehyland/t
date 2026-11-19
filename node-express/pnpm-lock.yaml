@@ -36,8 +36,8 @@ dependencies:
     specifier: ^1.25.2
     version: 1.26.0
   zod:
-    specifier: ^3.22.2
-    version: 3.22.2
+    specifier: ^4.0.0
+    version: 4.6.7
 
 devDependencies:
   '@types/cors':
@@ -2232,6 +2232,6 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  /zod@3.22.2:
-    resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
+  /zod@4.6.7:
+    resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
     dev: false
